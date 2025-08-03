@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dieter Verbeek - Portfolio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background: #f8fafc;
+            color: #333;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            color: #667eea;
+        }
+
+        /* Mobile menu toggle */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Header Section */
+        .header {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            background: 
+                linear-gradient(135deg, rgba(102, 126, 234, 0.247) 0%, rgba(118, 75, 162, 0.24) 100%),
+                url('media/main.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            animation: backgroundShift 8s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            33% { transform: translateX(-20px) translateY(-10px); }
+            66% { transform: translateX(20px) translateY(10px); }
+        }
+
+        .header-content {
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 5px solid rgba(255,255,255,0.3);
+            margin-bottom: 2rem;
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .title {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(255,255,255,0.5); }
+            to { text-shadow: 0 0 30px rgba(255,255,255,0.8), 0 0 40px rgba(102,126,234,0.5); }
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cv-button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem 2rem;
+            border: 2px solid #000;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .cv-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 3rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            position: relative;
+        }
+
+        .about {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 25px;
+            margin: 1rem 0;
+            padding: 3rem;
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.1),
+                inset 0 1px 0 rgba(255,255,255,0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+        }
+
+        .about::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(102,126,234,0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #333;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 50px;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: block;
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .info-card {
+            background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(102,126,234,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102,126,234,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .info-card:hover::before {
+            left: 100%;
+        }
+
+        .info-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(102,126,234,0.15);
+            border-color: rgba(102,126,234,0.3);
+        }
+
+        .info-card i {
+            font-size: 1.8rem;
+            color: #667eea;
+            margin-bottom: 0.8rem;
+        }
+
+        .projects {
+            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            border-radius: 25px;
+            margin: 1rem 0;
+            padding: 3rem;
+            box-shadow: 
+                0 25px 50px rgba(0,0,0,0.2),
+                inset 0 1px 0 rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .projects::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(102,126,234,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(118,75,162,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .projects .section-title {
+            color: white;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: linear-gradient(145deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-blend-mode: overlay;
+        }
+
+        .project-card.soc {
+            background-image: linear-gradient(145deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%), url('media/soc.png');
+        }
+
+        .project-card.retro {
+            background-image: linear-gradient(145deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%), url('media/retro.png');
+        }
+
+        .project-card.aws-tier3 {
+            background-image: linear-gradient(145deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%), url('media/aws-tier3.png');
+        }
+
+        .project-card.aws-iac {
+            background-image: linear-gradient(145deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%), url('media/aws-iac.png');
+        }
+
+        .project-card.coming-soon {
+            background-image: linear-gradient(145deg, rgba(102,126,234,0.7) 0%, rgba(118,75,162,0.7) 100%), url('media/coming-soon.png');
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            border-color: rgba(255,255,255,0.4);
+            background-blend-mode: multiply;
+        }
+
+        .project-card:hover::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1;
+        }
+
+        .project-card h3, .project-card p {
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover h3,
+        .project-card:hover p {
+            opacity: 1;
+            transform: translateY(0);
+            z-index: 3;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            overflow-y: auto; /* Enable scrolling for the whole modal overlay */
+        }
+
+        .modal-content {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            margin: 5% auto; /* Increased margin for better spacing */
+            padding: 3rem;
+            border-radius: 25px;
+            width: 95%;
+            max-width: 900px; /* Wider modal for bigger images */
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .modal-header i {
+            font-size: 2rem;
+            color: #667eea;
+            margin-right: 1rem;
+        }
+
+        .modal-header h2 {
+            color: #333;
+            margin: 0;
+        }
+
+        .close {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            color: #aaa;
+            float: right;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            z-index: 2001;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #667eea;
+        }
+
+        .modal-body {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .modal-body h3 {
+            color: #333;
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        .modal-body ul {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .modal-body li {
+            margin: 0.5rem 0;
+        }
+
+        /* --- Gallery Styles --- */
+        .gallery-container {
+            margin: 2rem 0;
+        }
+        
+        .gallery-main-image {
+            position: relative;
+            margin-bottom: 1rem;
+            background: #e2e8f0;
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .gallery-main-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 15px;
+            max-height: 60vh; /* Control max height */
+            object-fit: contain; /* Show the whole image */
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: none; /* ADJUSTED: Hides the navigation arrows */
+            justify-content: space-between;
+            padding: 0 0.5rem;
+        }
+        
+        .gallery-nav button {
+            background-color: rgba(0,0,0,0.4);
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 0.8rem 1.2rem;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            font-weight: bold;
+            line-height: 1;
+            transition: background-color 0.3s ease;
+            user-select: none; /* Prevent text selection */
+        }
+        
+        .gallery-nav button:hover {
+            background-color: rgba(0,0,0,0.7);
+        }
+        
+        .gallery-thumbnails {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+        
+        .gallery-thumbnails img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            opacity: 0.6;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-thumbnails img:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        
+        .gallery-thumbnails img.active {
+            opacity: 1;
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+        /* --- END: Gallery Styles --- */
+
+        .contact {
+            background: linear-gradient(145deg, #667eea 0%, #764ba2 100%);
+            border-radius: 25px;
+            margin: 1rem 0;
+            padding: 3rem;
+            box-shadow: 
+                0 25px 50px rgba(102,126,234,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+
+        .contact::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                conic-gradient(from 0deg, transparent 0deg, rgba(255, 255, 255, 0.26) 90deg, transparent 180deg, rgba(255, 255, 255, 0.192) 270deg, transparent 360deg);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .contact .section-title {
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact p {
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            transform: translateY(-3px);
+            background: rgba(255,255,255,0.3);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .footer {
+            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #667eea);
+            background-size: 300% 100%;
+            animation: gradientMove 3s ease-in-out infinite;
+        }
+
+        @keyframes gradientMove {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: rgba(255,255,255,0.95);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+                padding: 2rem 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .title {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .profile-image {
+                width: 150px;
+                height: 150px;
+                margin-top: 6rem; /* ADJUSTED: Increased top margin */
+            }
+
+            .section {
+                padding: 2rem 1rem;
+            }
+            
+            .modal-content {
+                padding: 1.5rem;
+                margin: 2rem auto;
+            }
+
+            .about, .projects, .contact {
+                padding: 1.5rem;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Add some animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: fadeInUp 0.8s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">Dieter Verbeek</div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">Over Mij</a></li>
+                <li><a href="#stage">Stage</a></li>
+                <li><a href="#projects">Projecten</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="header">
+        <div class="header-content">
+            <img src="media/profiel.jpg" alt="Dieter Verbeek" class="profile-image">
+            <h1 class="title">Dieter Verbeek</h1>
+            <p class="subtitle">Cloud & Cybersecurity Student</p>
+            <button class="cv-button" onclick="generateProfessionalCV()">
+                <i class="fas fa-download"></i> Download CV
+            </button>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <div class="about">
+            <h2 class="section-title">Over Mij</h2>
+            <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem; line-height: 1.8;">
+                Als gedreven IT-professional met een Bachelor in Cloud & Cybersecurity ben ik gepassioneerd door de nieuwste technologieën. 
+                Mijn expertise ligt vooral in cloud computing, security tools en automatisering. Ik ben altijd op zoek naar innovatieve 
+                oplossingen en hou me voortdurend bij met de laatste trends in de IT-wereld.
+            </p>
+            
+            <div class="info-grid">
+                <div class="info-card">
+                    <i class="fas fa-user"></i>
+                    <h3>Name</h3>
+                    <p>Dieter Verbeek</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-birthday-cake"></i>
+                    <h3>Age</h3>
+                    <p>34 jaar</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Location</h3>
+                    <p>Kasterlee, België</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="stage" class="section">
+        <div class="about">
+            <h2 class="section-title">Internship</h2>
+            <div style="text-align: left; max-width: 800px; margin: 0 auto; line-height: 1.8;">
+                <h3 style="color: #667eea; margin-bottom: 1rem;"><i class="fas fa-building"></i> Stage bij Aurubis</h3>
+                <p style="margin-bottom: 1.5rem;">
+                    Tijdens mijn stage bij Aurubis in Olen, een wereldleider in de koperindustrie, heb ik waardevolle praktijkervaring opgedaan binnen de afdeling <strong>IT Security & Cloud Computing</strong>. Deze ervaring was cruciaal voor het toepassen van mijn academische kennis in een complexe, real-world bedrijfsomgeving.
+                </p>
+                
+                <h4 style="color: #333; margin-bottom: 1rem;"><i class="fas fa-tasks"></i> Belangrijkste Verantwoordelijkheden:</h4>
+                <ul style="list-style-type: none; padding-left: 0; margin-bottom: 1.5rem;">
+                    <li style="margin-bottom: 0.5rem;"><i class="fas fa-check-circle" style="color: #667eea; margin-right: 10px;"></i>Meegeholpen met de monitoring en analyse van security events in het SIEM-platform.</li>
+                    <li style="margin-bottom: 0.5rem;"><i class="fas fa-check-circle" style="color: #667eea; margin-right: 10px;"></i>Ondersteund bij de implementatie en het beheer van cloud-infrastructuur op AWS.</li>
+                    <li style="margin-bottom: 0.5rem;"><i class="fas fa-check-circle" style="color: #667eea; margin-right: 10px;"></i>Scripts ontwikkeld voor de automatisering van routine security taken en rapportages.</li>
+                    <li style="margin-bottom: 0.5rem;"><i class="fas fa-check-circle" style="color: #667eea; margin-right: 10px;"></i>Kwetsbaarheidsanalyses uitgevoerd op interne systemen en applicaties.</li>
+                    <li style="margin-bottom: 0.5rem;"><i class="fas fa-check-circle" style="color: #667eea; margin-right: 10px;"></i>Documentatie opgesteld voor nieuwe cloud- en securityprocedures.</li>
+                </ul>
+
+                <h4 style="color: #333; margin-bottom: 1rem;"><i class="fas fa-lightbulb"></i> Wat ik heb geleerd:</h4>
+                <p>
+                    Deze stage heeft mijn theoretische kennis versterkt met praktische vaardigheden. Ik heb geleerd hoe essentieel een proactieve security-aanpak is en hoe cloud-technologieën bijdragen aan de efficiëntie en schaalbaarheid van een grote, industriële organisatie.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section">
+        <div class="projects">
+            <h2 class="section-title">Projects</h2>
+            <div class="project-grid">
+                <div class="project-card soc" onclick="openModal('soc-modal')">
+                    <h3><i class="fas fa-desktop"></i> SOC</h3>
+                    <p>Security Operations Center implementatie voor real-time monitoring en incident response.</p>
+                </div>
+                <div class="project-card retro" onclick="openModal('retro-modal')">
+                    <h3><i class="fas fa-globe"></i> Retro Snacks Website</h3>
+                    <p>Django framework website met postgres database, automatische offertes en dashboard functionaliteiten.</p>
+                </div>
+                <div class="project-card aws-tier3" onclick="openModal('aws-tier3-modal')">
+                    <h3><i class="fas fa-cloud"></i> AWS Tier 3 Setup</h3>
+                    <p>Enterprise-grade AWS architectuur met hoge beschikbaarheid en schaalbaarheid.</p>
+                </div>
+                <div class="project-card aws-iac" onclick="openModal('aws-iac-modal')">
+                    <h3><i class="fas fa-code-branch"></i> AWS/GitLab/IaC Setup</h3>
+                    <p>Infrastructure as Code implementatie met GitLab CI/CD en AWS services.</p>
+                </div>
+                <div class="project-card coming-soon" onclick="openModal('coming-soon-modal')">
+                    <h3><i class="fas fa-hourglass-half"></i> Binnenkort Bekend</h3>
+                    <p>Nieuw project in ontwikkeling.</p>
+                </div>
+                <div class="project-card coming-soon" onclick="openModal('coming-soon-modal2')">
+                    <h3><i class="fas fa-hourglass-half"></i> Binnenkort Bekend</h3>
+                    <p>Nieuw project in ontwikkeling.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <div class="contact">
+            <h2 class="section-title">Contact</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                Neem gerust contact met me op voor samenwerkingen of vragen!
+            </p>
+            <div class="contact-links">
+                <a href="mailto:dieter.verbeek@hotmail.com?subject=Contact%20via%20Portfolio&body=Hallo%20Dieter,%0D%0A%0D%0AIk%20heb%20je%20portfolio%20bekeken%20en%20zou%20graag%20contact%20opnemen.%0D%0A%0D%0AMet%20vriendelijke%20groet" class="contact-link">
+                    <i class="fas fa-envelope"></i>
+                    Email
+                </a>
+                <a href="https://linkedin.com/in/dieter-verbeek" target="_blank" class="contact-link">
+                    <i class="fab fa-linkedin"></i>
+                    LinkedIn
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>Copyright © 2025 Dieter Verbeek. All Rights Reserved.</p>
+    </footer>
+
+    <div id="soc-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <i class="fas fa-desktop"></i>
+                <h2>Security Operations Center (SOC)</h2>
+            </div>
+            <div class="modal-body">
+                <p>Implementatie van een volledig functioneel Security Operations Center voor 24/7 monitoring en incident response capabilities.</p>
+                
+                <div class="gallery-container">
+                    <div class="gallery-main-image">
+                        <img src="https://via.placeholder.com/900x500/667eea/ffffff?text=SOC+Dashboard" alt="SOC Dashboard">
+                    </div>
+                    <div class="gallery-nav">
+                        <button class="prev">&lt;</button>
+                        <button class="next">&gt;</button>
+                    </div>
+                    <div class="gallery-thumbnails">
+                        <img src="https://via.placeholder.com/900x500/667eea/ffffff?text=SOC+Dashboard" alt="Real-time Security Dashboard">
+                        <img src="https://via.placeholder.com/900x500/764ba2/ffffff?text=SIEM+Platform" alt="Splunk SIEM Implementation">
+                        <img src="https://via.placeholder.com/900x500/f093fb/ffffff?text=Incident+Response" alt="Incident Response Workflow">
+                    </div>
+                </div>
+                
+                <h3>SOC Componenten:</h3>
+                <ul>
+                    <li><strong>SIEM Platform</strong> - Splunk Enterprise voor log correlatie en analyse</li>
+                    <li><strong>Threat Intelligence</strong> - Integratie van real-time threat feeds</li>
+                    <li><strong>Incident Response</strong> - Geautomatiseerde response workflows</li>
+                    <li><strong>Dashboard & Reporting</strong> - Real-time security dashboards</li>
+                </ul>
+
+                <h3>Belangrijkste Features:</h3>
+                <ul>
+                    <li>24/7 monitoring van netwerk en systemen</li>
+                    <li>Automatische threat detection en alerting</li>
+                    <li>Incident tracking en response procedures</li>
+                    <li>Compliance reporting en forensische analyse</li>
+                </ul>
+                <p><strong>Resultaat:</strong> 90% snellere incident detection en gestructureerde security operations.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="retro-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <i class="fas fa-globe"></i>
+                <h2>Retro Snacks Website</h2>
+            </div>
+            <div class="modal-body">
+                <p>Volledig functionele e-commerce website gebouwd met Django framework en PostgreSQL database, speciaal ontworpen voor een snacks bedrijf.</p>
+                
+                <div class="gallery-container">
+                    <div class="gallery-main-image">
+                        <img src="media/retro.PNG" alt="Website Homepage">
+                    </div>
+                    <div class="gallery-nav">
+                        <button class="prev">&lt;</button>
+                        <button class="next">&gt;</button>
+                    </div>
+                    <div class="gallery-thumbnails">
+                        <img src="media/retro.PNG" alt="Responsive Homepage Design">
+                        <img src="https://via.placeholder.com/900x500/764ba2/ffffff?text=Admin+Dashboard" alt="Eigenaar Dashboard Interface">
+                        <img src="https://via.placeholder.com/900x500/f093fb/ffffff?text=Quote+System" alt="Automatische Offerte Systeem">
+                    </div>
+                </div>
+                
+                <h3>Technische Stack:</h3>
+                <ul>
+                    <li><strong>Backend</strong> - Django Framework (Python)</li>
+                    <li><strong>Database</strong> - PostgreSQL</li>
+                    <li><strong>Frontend</strong> - HTML5, CSS3, JavaScript</li>
+                    <li><strong>Deployment</strong> - Gunicorn, NginX</li>
+                </ul>
+                <h3>Functionaliteiten:</h3>
+                <ul>
+                    <li><strong>Automatische Offerte Berekening</strong> - Slimme pricing engine</li>
+                    <li><strong>Eigenaar Dashboard</strong> - Overzicht van alle offertes en bestellingen</li>
+                    <li><strong>Event Formulieren</strong> - Aangepaste formulieren voor verschillende events</li>
+                    <li><strong>Offerte Management</strong> - Voorraad tracking en beheer</li>
+                </ul>
+                <p><strong>Resultaat:</strong> Geautomatiseerd bestelproces, wat leidt tot een aanzienlijke vermindering van handmatig werk en een betere klantervaring.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="aws-tier3-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <i class="fas fa-cloud"></i>
+                <h2>AWS Tier 3 Setup</h2>
+            </div>
+            <div class="modal-body">
+                <p>Enterprise-grade AWS tier 3 architectuur voor maximale uptime en betrouwbaarheid.</p>
+                
+                <div class="gallery-container">
+                    <div class="gallery-main-image">
+                        <img src="media/diagram.png" alt="AWS Architecture">
+                    </div>
+                    <div class="gallery-nav">
+                        <button class="prev">&lt;</button>
+                        <button class="next">&gt;</button>
+                    </div>
+                    <div class="gallery-thumbnails">
+                        <img src="media/diagram.png" alt="Multi-AZ Architecture Diagram">
+                    </div>
+                </div>
+                
+                <h3>Architectuur Componenten:</h3>
+                <ul>
+                    <li><strong>Multi-AZ Deployment</strong> - High availability across multiple zones</li>
+                    <li><strong>Load Balancing</strong> - Application Load Balancer met health checks</li>
+                    <li><strong>Auto Scaling</strong> - Dynamische resource scaling</li>
+                    <li><strong>RDS Multi-AZ</strong> - Database replicatie en failover</li>
+                </ul>
+
+                <h3>Security & Compliance:</h3>
+                <ul>
+                    <li>VPC met private/public subnets</li>
+                    <li>WAF en CloudFront voor DDoS protection</li>
+                    <li>CloudTrail logging en monitoring</li>
+                    <li>Encrypted storage en data in transit</li>
+                </ul>
+                <p><strong>Resultaat:</strong> 99.99% uptime garantie met enterprise-level security en compliance.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="aws-iac-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <i class="fas fa-code-branch"></i>
+                <h2>AWS/GitLab/IaC Setup</h2>
+            </div>
+            <div class="modal-body">
+                <p>Complete Infrastructure as Code setup met GitLab CI/CD pipelines voor geautomatiseerde AWS deployments.</p>
+                
+                <div class="gallery-container">
+                    <div class="gallery-main-image">
+                        <img src="https://via.placeholder.com/900x500/667eea/ffffff?text=GitLab+Pipeline" alt="GitLab Pipeline">
+                    </div>
+                    <div class="gallery-nav">
+                        <button class="prev">&lt;</button>
+                        <button class="next">&gt;</button>
+                    </div>
+                    <div class="gallery-thumbnails">
+                        <img src="https://via.placeholder.com/900x500/667eea/ffffff?text=GitLab+Pipeline" alt="CI/CD Pipeline Overview">
+                        <img src="https://via.placeholder.com/900x500/764ba2/ffffff?text=Terraform+Code" alt="Terraform Infrastructure Code">
+                        <img src="https://via.placeholder.com/900x500/f093fb/ffffff?text=Deployment+Flow" alt="Automated Deployment Flow">
+                    </div>
+                </div>
+                
+                <h3>IaC Tools & Technologies:</h3>
+                <ul>
+                    <li><strong>Terraform</strong> - Infrastructure provisioning</li>
+                    <li><strong>Ansible</strong> - Configuration management</li>
+                    <li><strong>GitLab CI/CD</strong> - Automated deployment pipelines</li>
+                    <li><strong>AWS CloudFormation</strong> - Stack management</li>
+                </ul>
+
+                <h3>Pipeline Features:</h3>
+                <ul>
+                    <li>Automated testing en validation</li>
+                    <li>Multi-environment deployments (dev/staging/prod)</li>
+                    <li>Rollback capabilities en blue-green deployments</li>
+                    <li>Security scanning en compliance checks</li>
+                </ul>
+                <p><strong>Resultaat:</strong> 75% snellere deployments met zero-downtime updates en verbeterde code quality.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="coming-soon-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <i class="fas fa-hourglass-half"></i>
+                <h2>Binnenkort Bekend</h2>
+            </div>
+            <div class="modal-body">
+                <p>Spannende nieuwe projecten zijn momenteel in ontwikkeling! Ik werk aan innovatieve oplossingen in de cloud en cybersecurity wereld.</p>
+                
+                <div class="gallery-container">
+                    <div class="gallery-main-image">
+                        <img src="https://via.placeholder.com/900x500/667eea/ffffff?text=AI+Security" alt="AI Security">
+                    </div>
+                    <div class="gallery-nav">
+                        <button class="prev">&lt;</button>
+                        <button class="next">&gt;</button>
+                    </div>
+                    <div class="gallery-thumbnails">
+                        <img src="https://via.placeholder.com/900x500/667eea/ffffff?text=AI+Security" alt="AI-Powered Security Tools">
+                        <img src="https://via.placeholder.com/900x500/764ba2/ffffff?text=Cloud+Innovation" alt="Next-Gen Cloud Solutions">
+                        <img src="https://via.placeholder.com/900x500/f093fb/ffffff?text=Coming+Soon" alt="Innovation in Progress">
+                    </div>
+                </div>
+                
+                <h3>Wat je kunt verwachten:</h3>
+                <ul>
+                    <li>Geavanceerde cloud security implementaties</li>
+                    <li>AI-gebaseerde monitoring tools</li>
+                    <li>Nieuwe automatisering projecten</li>
+                    <li>Open source contributities</li>
+                </ul>
+                <p><strong>Blijf op de hoogte!</strong> Neem contact op voor meer informatie over aankomende projecten.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="coming-soon-modal2" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <i class="fas fa-hourglass-half"></i>
+                <h2>Binnenkort Bekend</h2>
+            </div>
+            <div class="modal-body">
+                <p>Meer innovatieve technologie projecten worden binnenkort onthuld. Focus ligt op cutting-edge cloud technologieën en security solutions.</p>
+                
+                <div class="gallery-container">
+                    <div class="gallery-main-image">
+                        <img src="https://via.placeholder.com/900x500/667eea/ffffff?text=Kubernetes" alt="Kubernetes">
+                    </div>
+                    <div class="gallery-nav">
+                        <button class="prev">&lt;</button>
+                        <button class="next">&gt;</button>
+                    </div>
+                    <div class="gallery-thumbnails">
+                        <img src="https://via.placeholder.com/900x500/667eea/ffffff?text=Kubernetes" alt="Container Orchestration">
+                        <img src="https://via.placeholder.com/900x500/764ba2/ffffff?text=DevSecOps" alt="DevSecOps Pipeline">
+                        <img src="https://via.placeholder.com/900x500/f093fb/ffffff?text=ML+Security" alt="Machine Learning Security">
+                    </div>
+                </div>
+                
+                <h3>Technologie Focus Areas:</h3>
+                <ul>
+                    <li>Container orchestration en Kubernetes</li>
+                    <li>Serverless architectures</li>
+                    <li>Machine learning voor security</li>
+                    <li>DevSecOps implementaties</li>
+                </ul>
+                <p><strong>Coming Soon!</strong> Volg mijn LinkedIn voor de laatste updates over nieuwe projecten.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeGalleries();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            // Mobile menu toggle
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            if (hamburger) {
+                hamburger.addEventListener('click', () => {
+                    hamburger.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                });
+            }
+
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.nav-menu a').forEach(n => n.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }));
+
+            // Close modal when clicking the X
+            document.querySelectorAll('.close').forEach(closeBtn => {
+                closeBtn.addEventListener('click', function() {
+                    const modal = this.closest('.modal');
+                    if (modal) {
+                       closeModal(modal.id);
+                    }
+                });
+            });
+
+            // Close modal when clicking outside of it
+            window.addEventListener('click', function(event) {
+                if (event.target.classList.contains('modal')) {
+                    closeModal(event.target.id);
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    document.querySelectorAll('.modal').forEach(modal => {
+                        if (modal.style.display === 'block') {
+                            closeModal(modal.id);
+                        }
+                    });
+                }
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Add active class to navigation based on scroll position
+            window.addEventListener('scroll', () => {
+                const sections = document.querySelectorAll('section[id]');
+                const navLinks = document.querySelectorAll('.nav-menu a');
+                
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (window.scrollY >= sectionTop - 75) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        function initializeGalleries() {
+            document.querySelectorAll('.modal').forEach(modal => {
+                const galleryContainer = modal.querySelector('.gallery-container');
+                if (!galleryContainer || galleryContainer.dataset.initialized) return;
+
+                const mainImage = galleryContainer.querySelector('.gallery-main-image img');
+                const thumbnails = galleryContainer.querySelectorAll('.gallery-thumbnails img');
+                const navPrev = galleryContainer.querySelector('.gallery-nav .prev');
+                const navNext = galleryContainer.querySelector('.gallery-nav .next');
+                let currentIndex = 0;
+
+                function updateView(index) {
+                    if (index < 0 || index >= thumbnails.length || !mainImage) return;
+                    currentIndex = index;
+
+                    mainImage.style.opacity = '0';
+                    setTimeout(() => {
+                        mainImage.src = thumbnails[currentIndex].getAttribute('src');
+                        mainImage.alt = thumbnails[currentIndex].getAttribute('alt');
+                        mainImage.style.opacity = '1';
+                    }, 150);
+                    
+                    thumbnails.forEach((t, i) => {
+                        t.classList.toggle('active', i === currentIndex);
+                    });
+                }
+
+                thumbnails.forEach((thumbnail, index) => {
+                    thumbnail.addEventListener('click', () => updateView(index));
+                });
+
+                if(navPrev) {
+                    navPrev.addEventListener('click', () => {
+                        let newIndex = (currentIndex - 1 + thumbnails.length) % thumbnails.length;
+                        updateView(newIndex);
+                    });
+                }
+
+                if(navNext) {
+                    navNext.addEventListener('click', () => {
+                        let newIndex = (currentIndex + 1) % thumbnails.length;
+                        updateView(newIndex);
+                    });
+                }
+
+                if (thumbnails.length <= 1 && navPrev && navNext) {
+                    navPrev.style.display = 'none';
+                    navNext.style.display = 'none';
+                }
+
+                galleryContainer.dataset.initialized = 'true';
+            });
+        }
+
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (!modal) return;
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+
+            const firstThumbnail = modal.querySelector('.gallery-thumbnails img');
+            if (firstThumbnail) {
+                firstThumbnail.dispatchEvent(new Event('click'));
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (!modal) return;
+            
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Professional PDF CV Generation
+        function generateProfessionalCV() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            doc.setFont('helvetica');
+            
+            doc.setFillColor(102, 126, 234);
+            doc.rect(0, 0, 210, 40, 'F');
+            
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(24);
+            doc.setFont('helvetica', 'bold');
+            doc.text('DIETER VERBEEK', 20, 25);
+            
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Cloud & Cybersecurity Specialist', 20, 33);
+            
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(10);
+            let yPos = 55;
+            
+            doc.setFont('helvetica', 'bold');
+            doc.text('CONTACTGEGEVENS', 20, yPos);
+            yPos += 8;
+            
+            doc.setFont('helvetica', 'normal');
+            doc.text('Email: dieter.verbeek@hotmail.com', 20, yPos);
+            yPos += 5;
+            doc.text('LinkedIn: linkedin.com/in/dieter-verbeek', 20, yPos);
+            yPos += 5;
+            doc.text('Locatie: Kasterlee, België', 20, yPos);
+            yPos += 5;
+            doc.text('Leeftijd: 34 jaar', 20, yPos);
+            yPos += 15;
+            
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(12);
+            doc.text('PROFESSIONELE SAMENVATTING', 20, yPos);
+            yPos += 8;
+            
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10);
+            const summary = 'Gedreven IT-professional met een Bachelor in Cloud & Cybersecurity, gepassioneerd door de nieuwste technologieën. Expertise in cloud computing, security tools en automatisering. Altijd op zoek naar innovatieve oplossingen en voortdurend bijblijven met de laatste trends in de IT-wereld.';
+            const summaryLines = doc.splitTextToSize(summary, 170);
+            doc.text(summaryLines, 20, yPos);
+            yPos += summaryLines.length * 5 + 10;
+            
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(12);
+            doc.text('OPLEIDING', 20, yPos);
+            yPos += 8;
+            
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(10);
+            doc.text('Bachelor Cloud & Cybersecurity', 20, yPos);
+            yPos += 5;
+            doc.setFont('helvetica', 'normal');
+            doc.text('Gespecialiseerd in cloud infrastructuur en security implementaties', 20, yPos);
+            yPos += 15;
+            
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(12);
+            doc.text('WERKERVARING & STAGE', 20, yPos);
+            yPos += 8;
+            
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(10);
+            doc.text('Stage IT Security & Cloud Computing - Aurubis, Olen', 20, yPos);
+            yPos += 5;
+            
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+            const stageResponsibilities = [
+                '• Monitoring en analyse van security events in SIEM-platform',
+                '• Implementatie en beheer van cloud-infrastructuur op AWS',
+                '• Ontwikkeling van scripts voor automatisering van security taken',
+                '• Uitvoering van kwetsbaarheidsanalyses op interne systemen',
+                '• Documentatie van nieuwe cloud- en securityprocedures'
+            ];
+            
+            stageResponsibilities.forEach(responsibility => {
+                doc.text(responsibility, 20, yPos);
+                yPos += 4;
+            });
+            yPos += 10;
+            
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(12);
+            doc.text('TECHNISCHE VAARDIGHEDEN', 20, yPos);
+            yPos += 8;
+            
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10);
+            
+            const skillsLeft = [
+                'Cloud Platforms:',
+                '• AWS (EC2, S3, RDS, VPC)',
+                '• Azure Cloud Services',
+                '• Google Cloud Platform',
+                '',
+                'Security Tools:',
+                '• SIEM Platforms (Splunk)',
+                '• Vulnerability Assessment',
+                '• Incident Response',
+                '• Threat Intelligence'
+            ];
+            
+            const skillsRight = [
+                'Development & Automation:',
+                '• Python Scripting',
+                '• Infrastructure as Code',
+                '• GitLab CI/CD',
+                '• Docker & Containers',
+                '',
+                'Databases & Web:',
+                '• PostgreSQL, MySQL',
+                '• Django Framework',
+                '• HTML5, CSS3, JavaScript',
+                '• RESTful APIs'
+            ];
+            
+            let leftYPos = yPos;
+            skillsLeft.forEach(skill => {
+                doc.text(skill, 20, leftYPos);
+                leftYPos += 4;
+            });
+            
+            let rightYPos = yPos;
+            skillsRight.forEach(skill => {
+                doc.text(skill, 110, rightYPos);
+                rightYPos += 4;
+            });
+            
+            yPos = Math.max(leftYPos, rightYPos) + 10;
+            
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(12);
+            doc.text('BELANGRIJKSTE PROJECTEN', 20, yPos);
+            yPos += 8;
+            
+            const projects = [
+                {
+                    title: 'Security Operations Center (SOC)',
+                    description: 'Implementatie van 24/7 monitoring platform met Splunk Enterprise voor real-time threat detection en incident response. Resultaat: 90% snellere incident detection.'
+                },
+                {
+                    title: 'AWS Tier 3 Enterprise Setup',
+                    description: 'Enterprise-grade AWS architectuur met Multi-AZ deployment, auto-scaling en 99.99% uptime garantie. Inclusief complete security compliance.'
+                },
+                {
+                    title: 'Django E-commerce Platform',
+                    description: 'Volledig geautomatiseerd bestelsysteem met PostgreSQL database, automatische offerte berekening en eigenaar dashboard. 80% reductie in handmatige verwerking.'
+                },
+                {
+                    title: 'Infrastructure as Code (IaC)',
+                    description: 'Complete GitLab CI/CD pipeline setup met Terraform en Ansible voor geautomatiseerde AWS deployments. 75% snellere deployments met zero-downtime updates.'
+                }
+            ];
+            
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+            
+            projects.forEach(project => {
+                if (yPos > 250) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+                
+                doc.setFont('helvetica', 'bold');
+                doc.text(project.title, 20, yPos);
+                yPos += 4;
+                
+                doc.setFont('helvetica', 'normal');
+                const projectLines = doc.splitTextToSize(project.description, 170);
+                doc.text(projectLines, 20, yPos);
+                yPos += projectLines.length * 4 + 6;
+            });
+            
+            if (yPos > 240) {
+                doc.addPage();
+                yPos = 20;
+            }
+            
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(12);
+            doc.text('KERNCOMPETENTIES', 20, yPos);
+            yPos += 8;
+            
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10);
+            const competencies = [
+                '✓ Proactieve security-aanpak en risk assessment',
+                '✓ Cloud architectuur design en implementatie',
+                '✓ Automatisering van IT-processen en workflows',
+                '✓ Incident response en forensische analyse',
+                '✓ Team collaboration en knowledge sharing',
+                '✓ Continuous learning en technologie adoptie'
+            ];
+            
+            competencies.forEach(comp => {
+                doc.text(comp, 20, yPos);
+                yPos += 5;
+            });
+            
+            doc.setFillColor(240, 240, 240);
+            doc.rect(0, 280, 210, 17, 'F');
+            doc.setTextColor(100, 100, 100);
+            doc.setFontSize(8);
+            doc.text('Gegenereerd op: ' + new Date().toLocaleDateString('nl-NL'), 20, 290);
+            doc.text('Dieter Verbeek - Cloud & Cybersecurity Specialist', 105, 290, { align: 'center' });
+            
+            doc.save('Dieter_Verbeek_CV_Professional.pdf');
+        }
+    </script>
+</body>
+</html>
