@@ -52,7 +52,7 @@
 
         /* Navbar */
         .navbar {
-            position: fixed;
+            position: sticky; /* Veranderd van fixed naar sticky */
             top: 0;
             width: 100%;
             background: rgba(255, 255, 255, 0.95);
@@ -473,7 +473,7 @@
             text-shadow: 0 2px 8px rgba(0,0,0,0.8);
         }
 
-        /* Modal Styles */
+        /* Modal Styles - VERBETERD VOOR MOBIEL */
         .modal {
             display: none;
             position: fixed;
@@ -484,6 +484,7 @@
             height: 100%;
             background-color: rgba(0,0,0,0.8);
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         /* Vervang backdrop-filter in modal op mobiel */
@@ -495,20 +496,88 @@
 
         .modal-content {
             background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
-            margin: 5% auto;
-            padding: 3rem;
+            margin: 2% auto;
+            padding: 2rem;
             border-radius: 25px;
             width: 95%;
             max-width: 900px;
             position: relative;
             box-shadow: 0 25px 50px rgba(0,0,0,0.3);
             animation: modalSlideIn 0.3s ease-out;
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+
+        /* MOBIELE MODAL OPTIMALISATIES */
+        @media (max-width: 768px) {
+            .modal-content {
+                margin: 5px auto;
+                padding: 1rem;
+                width: 98%;
+                max-height: 95vh;
+                border-radius: 15px;
+                /* Kleinere marges voor meer ruimte */
+            }
+            
+            .modal-header {
+                padding-bottom: 0.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            .modal-header h2 {
+                font-size: 1.3rem;
+                line-height: 1.2;
+            }
+            
+            .modal-header i {
+                font-size: 1.5rem;
+            }
+            
+            .close {
+                top: 0.5rem;
+                right: 1rem;
+                font-size: 1.8rem;
+            }
+            
+            .modal-body {
+                font-size: 0.9rem;
+                line-height: 1.6;
+            }
+            
+            .modal-body h3 {
+                font-size: 1.1rem;
+                margin: 1rem 0 0.5rem 0;
+            }
+            
+            .modal-body ul {
+                margin: 0.5rem 0;
+                padding-left: 1rem;
+            }
+            
+            .modal-body li {
+                margin: 0.3rem 0;
+                font-size: 0.85rem;
+            }
+            
+            /* Gallery aanpassingen voor mobiel */
+            .gallery-main-image img {
+                max-height: 40vh;
+            }
+            
+            .gallery-thumbnails {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                gap: 0.5rem;
+            }
+            
+            .gallery-thumbnails img {
+                height: 60px;
+            }
         }
 
         @keyframes modalSlideIn {
             from {
                 opacity: 0;
-                transform: translateY(-50px) scale(0.9);
+                transform: translateY(-30px) scale(0.95);
             }
             to {
                 opacity: 1;
@@ -556,6 +625,7 @@
         .modal-body {
             color: #555;
             line-height: 1.8;
+            overflow-y: auto;
         }
 
         .modal-body h3 {
@@ -809,11 +879,6 @@
             .section {
                 padding: 2rem 1rem;
             }
-            
-            .modal-content {
-                padding: 1.5rem;
-                margin: 2rem auto;
-            }
 
             .about, .projects, .contact {
                 padding: 1.5rem;
@@ -842,6 +907,26 @@
             .info-card::before,
             .project-card::before {
                 display: none;
+            }
+            
+            /* Zorg dat project cards altijd content tonen op mobiel */
+            .project-card h3, 
+            .project-card p {
+                opacity: 1;
+                transform: translateY(0);
+                z-index: 3;
+                text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+            }
+            
+            .project-card::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.7);
+                z-index: 1;
             }
         }
 
@@ -1021,7 +1106,7 @@
 
     <div id="soc-modal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" onclick="closeModal('soc-modal')">&times;</span>
             <div class="modal-header">
                 <i class="fas fa-desktop"></i>
                 <h2>Security Operations Center (SOC)</h2>
@@ -1064,7 +1149,7 @@
 
     <div id="retro-modal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" onclick="closeModal('retro-modal')">&times;</span>
             <div class="modal-header">
                 <i class="fas fa-globe"></i>
                 <h2>Retro Snacks Website</h2>
@@ -1102,14 +1187,14 @@
                     <li><strong>Eigenaar Dashboard</strong> - Overzicht van alle offertes en bestellingen</li>
                     <li><strong>Event Formulieren</strong> - Aangepaste formulieren voor verschillende events</li>
                     <li><strong>Offerte Management</strong> - Overzicht alle offertes</li>
-                </ul>   
+                </ul> 
             </div>
         </div>
     </div>
 
     <div id="aws-tier3-modal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" onclick="closeModal('aws-tier3-modal')">&times;</span>
             <div class="modal-header">
                 <i class="fas fa-cloud"></i>
                 <h2>AWS Tier 3 Setup</h2>
@@ -1150,7 +1235,7 @@
 
     <div id="aws-iac-modal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" onclick="closeModal('aws-iac-modal')">&times;</span>
             <div class="modal-header">
                 <i class="fas fa-code-branch"></i>
                 <h2>AWS/GitLab/IaC Setup</h2>
@@ -1192,7 +1277,7 @@
 
     <div id="coming-soon-modal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" onclick="closeModal('coming-soon-modal')">&times;</span>
             <div class="modal-header">
                 <i class="fas fa-hourglass-half"></i>
                 <h2>Security Audit</h2>
@@ -1226,7 +1311,7 @@
 
     <div id="coming-soon-modal2" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" onclick="closeModal('coming-soon-modal2')">&times;</span>
             <div class="modal-header">
                 <i class="fas fa-hourglass-half"></i>
                 <h2>Project bij bedrijf Y</h2>
@@ -1324,7 +1409,7 @@
                 closeBtn.addEventListener('click', function() {
                     const modal = this.closest('.modal');
                     if (modal) {
-                       closeModal(modal.id);
+                        closeModal(modal.id);
                     }
                 });
             });
@@ -1464,6 +1549,9 @@
             if (firstThumbnail) {
                 firstThumbnail.dispatchEvent(new Event('click'));
             }
+            
+            // Scroll naar de top van de modal
+            modal.scrollTop = 0;
         }
 
         function closeModal(modalId) {
@@ -1478,14 +1566,44 @@
         function generateProfessionalCV() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            
-            doc.setFont('helvetica');
-            
+            let yPos = 20;
+
+            // Header
             doc.setFillColor(102, 126, 234);
             doc.rect(0, 0, 210, 40, 'F');
-            
             doc.setTextColor(255, 255, 255);
+            doc.setFont('helvetica', 'bold');
             doc.setFontSize(24);
+            doc.text('Dieter Verbeek', 20, yPos);
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'normal');
+            yPos += 10;
+            doc.text('Cloud & Cybersecurity Student', 20, yPos);
+
+            yPos += 30;
+            doc.setTextColor(51, 51, 51);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(12);
+            doc.text('CONTACTINFORMATIE', 110, 60);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10);
+            doc.text('Email: dieter.verbeek@hotmail.com', 110, 68);
+            doc.text('LinkedIn: linkedin.com/in/dieter-verbeek', 110, 76);
+            doc.text('Locatie: Kasterlee, België', 110, 84);
+
+            yPos = 60;
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'bold');
+            doc.text('PROFIEL', 20, yPos);
+            yPos += 8;
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10);
+            const profileText = 'Als gedreven IT-professional met een Bachelor in Cloud & Cybersecurity ben ik gepassioneerd door de nieuwste technologieën. Mijn expertise ligt vooral in cloud computing, security tools en automatisering. Ik ben altijd op zoek naar innovatieve oplossingen en hou me voortdurend bij met de laatste trends in de IT-wereld.';
+            const profileLines = doc.splitTextToSize(profileText, 80);
+            doc.text(profileLines, 20, yPos);
+            yPos += profileLines.length * 5 + 10;
+            
+            // Experience and Internship
             doc.setFont('helvetica', 'bold');
             doc.setFontSize(12);
             doc.text('WERKERVARING & STAGE', 20, yPos);
@@ -1512,6 +1630,7 @@
             });
             yPos += 10;
             
+            // Skills
             doc.setFont('helvetica', 'bold');
             doc.setFontSize(12);
             doc.text('TECHNISCHE VAARDIGHEDEN', 20, yPos);
@@ -1561,6 +1680,12 @@
             
             yPos = Math.max(leftYPos, rightYPos) + 10;
             
+            if (yPos > 240) {
+                doc.addPage();
+                yPos = 20;
+            }
+
+            // Projects
             doc.setFont('helvetica', 'bold');
             doc.setFontSize(12);
             doc.text('BELANGRIJKSTE PROJECTEN', 20, yPos);
@@ -1629,13 +1754,6 @@
                 doc.text(comp, 20, yPos);
                 yPos += 5;
             });
-            
-            doc.setFillColor(240, 240, 240);
-            doc.rect(0, 280, 210, 17, 'F');
-            doc.setTextColor(100, 100, 100);
-            doc.setFontSize(8);
-            doc.text('Gegenereerd op: ' + new Date().toLocaleDateString('nl-NL'), 20, 290);
-            doc.text('Dieter Verbeek - Cloud & Cybersecurity Specialist', 105, 290, { align: 'center' });
             
             doc.save('Dieter_Verbeek_CV_Professional.pdf');
         }
