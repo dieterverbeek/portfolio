@@ -18,56 +18,18 @@
             line-height: 1.6;
             background: #f8fafc;
             color: #333;
-            /* Verbeter scrolling prestaties */
-            -webkit-overflow-scrolling: touch;
-            scroll-behavior: smooth;
-        }
-
-        /* Performance optimalisaties voor mobiel */
-        @media (max-width: 768px) {
-            * {
-                /* Verminder repaints en reflows */
-                -webkit-transform: translateZ(0);
-                transform: translateZ(0);
-                -webkit-backface-visibility: hidden;
-                backface-visibility: hidden;
-                -webkit-perspective: 1000;
-                perspective: 1000;
-            }
-            
-            /* Schakel zware animaties uit op mobiel */
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-            
-            /* Behoud alleen essentiële hover effecten */
-            .cv-button:hover,
-            .contact-link:hover {
-                animation-duration: 0.3s !important;
-                transition-duration: 0.3s !important;
-            }
         }
 
         /* Navbar */
         .navbar {
-            position: sticky; /* Veranderd van fixed naar sticky */
+            position: fixed;
             top: 0;
             width: 100%;
             background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             padding: 1rem 0;
             z-index: 1000;
             box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-            /* Vervang backdrop-filter op mobiel */
-            will-change: transform;
-        }
-
-        /* Conditionally gebruik backdrop-filter alleen op desktop */
-        @media (min-width: 769px) {
-            .navbar {
-                backdrop-filter: blur(10px);
-            }
         }
 
         .nav-container {
@@ -132,13 +94,7 @@
                 url('media/main.jpg');
             background-size: cover;
             background-position: center;
-            /* Vervang background-attachment: fixed op mobiel voor betere prestaties */
-        }
-
-        @media (min-width: 769px) {
-            .header {
-                background-attachment: fixed;
-            }
+            background-attachment: fixed;
         }
 
         .header::before {
@@ -152,19 +108,13 @@
                 radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.2) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.2) 0%, transparent 50%),
                 radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            animation: backgroundShift 8s ease-in-out infinite;
         }
 
-        /* Verberg zware animaties op mobiel */
-        @media (min-width: 769px) {
-            .header::before {
-                animation: backgroundShift 8s ease-in-out infinite;
-            }
-            
-            @keyframes backgroundShift {
-                0%, 100% { transform: translateX(0) translateY(0); }
-                33% { transform: translateX(-20px) translateY(-10px); }
-                66% { transform: translateX(20px) translateY(10px); }
-            }
+        @keyframes backgroundShift {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            33% { transform: translateX(-20px) translateY(-10px); }
+            66% { transform: translateX(20px) translateY(10px); }
         }
 
         .header-content {
@@ -181,35 +131,23 @@
             margin-bottom: 2rem;
             object-fit: cover;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: float 3s ease-in-out infinite;
         }
 
-        /* Float animatie alleen op desktop */
-        @media (min-width: 769px) {
-            .profile-image {
-                animation: float 3s ease-in-out infinite;
-            }
-            
-            @keyframes float {
-                0%, 100% { transform: translateY(0px); }
-                50% { transform: translateY(-10px); }
-            }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
 
         .title {
             font-size: 3.5rem;
             margin-bottom: 1rem;
+            animation: glow 2s ease-in-out infinite alternate;
         }
 
-        /* Glow animatie alleen op desktop */
-        @media (min-width: 769px) {
-            .title {
-                animation: glow 2s ease-in-out infinite alternate;
-            }
-            
-            @keyframes glow {
-                from { text-shadow: 0 0 20px rgba(255,255,255,0.5); }
-                to { text-shadow: 0 0 30px rgba(255,255,255,0.8), 0 0 40px rgba(102,126,234,0.5); }
-            }
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(255,255,255,0.5); }
+            to { text-shadow: 0 0 30px rgba(255,255,255,0.8), 0 0 40px rgba(102,126,234,0.5); }
         }
 
         .subtitle {
@@ -381,6 +319,7 @@
 
         .project-card {
             background: linear-gradient(145deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.2);
             color: white;
             padding: 2.5rem;
@@ -393,13 +332,6 @@
             background-position: center;
             background-repeat: no-repeat;
             background-blend-mode: overlay;
-        }
-
-        /* Schakel backdrop-filter uit op mobiel voor betere prestaties */
-        @media (min-width: 769px) {
-            .project-card {
-                backdrop-filter: blur(10px);
-            }
         }
 
         .project-card.soc {
@@ -473,7 +405,7 @@
             text-shadow: 0 2px 8px rgba(0,0,0,0.8);
         }
 
-        /* Modal Styles - VERBETERD VOOR MOBIEL */
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -483,101 +415,26 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0,0,0,0.8);
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        /* Vervang backdrop-filter in modal op mobiel */
-        @media (min-width: 769px) {
-            .modal {
-                backdrop-filter: blur(5px);
-            }
+            backdrop-filter: blur(5px);
+            overflow-y: auto; /* Enable scrolling for the whole modal overlay */
         }
 
         .modal-content {
             background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
-            margin: 2% auto;
-            padding: 2rem;
+            margin: 5% auto; /* Increased margin for better spacing */
+            padding: 3rem;
             border-radius: 25px;
             width: 95%;
-            max-width: 900px;
+            max-width: 900px; /* Wider modal for bigger images */
             position: relative;
             box-shadow: 0 25px 50px rgba(0,0,0,0.3);
             animation: modalSlideIn 0.3s ease-out;
-            overflow-y: auto;
-            max-height: 90vh;
-        }
-
-        /* MOBIELE MODAL OPTIMALISATIES */
-        @media (max-width: 768px) {
-            .modal-content {
-                margin: 5px auto;
-                padding: 1rem;
-                width: 98%;
-                max-height: 95vh;
-                border-radius: 15px;
-                /* Kleinere marges voor meer ruimte */
-            }
-            
-            .modal-header {
-                padding-bottom: 0.5rem;
-                margin-bottom: 1rem;
-            }
-            
-            .modal-header h2 {
-                font-size: 1.3rem;
-                line-height: 1.2;
-            }
-            
-            .modal-header i {
-                font-size: 1.5rem;
-            }
-            
-            .close {
-                top: 0.5rem;
-                right: 1rem;
-                font-size: 1.8rem;
-            }
-            
-            .modal-body {
-                font-size: 0.9rem;
-                line-height: 1.6;
-            }
-            
-            .modal-body h3 {
-                font-size: 1.1rem;
-                margin: 1rem 0 0.5rem 0;
-            }
-            
-            .modal-body ul {
-                margin: 0.5rem 0;
-                padding-left: 1rem;
-            }
-            
-            .modal-body li {
-                margin: 0.3rem 0;
-                font-size: 0.85rem;
-            }
-            
-            /* Gallery aanpassingen voor mobiel */
-            .gallery-main-image img {
-                max-height: 40vh;
-            }
-            
-            .gallery-thumbnails {
-                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-                gap: 0.5rem;
-            }
-            
-            .gallery-thumbnails img {
-                height: 60px;
-            }
         }
 
         @keyframes modalSlideIn {
             from {
                 opacity: 0;
-                transform: translateY(-30px) scale(0.95);
+                transform: translateY(-50px) scale(0.9);
             }
             to {
                 opacity: 1;
@@ -625,7 +482,6 @@
         .modal-body {
             color: #555;
             line-height: 1.8;
-            overflow-y: auto;
         }
 
         .modal-body h3 {
@@ -642,7 +498,7 @@
             margin: 0.5rem 0;
         }
 
-        /* Gallery Styles */
+        /* --- Gallery Styles --- */
         .gallery-container {
             margin: 2rem 0;
         }
@@ -663,8 +519,8 @@
             height: auto;
             display: block;
             border-radius: 15px;
-            max-height: 60vh;
-            object-fit: contain;
+            max-height: 60vh; /* Control max height */
+            object-fit: contain; /* Show the whole image */
             transition: opacity 0.3s ease;
         }
         
@@ -673,7 +529,7 @@
             top: 50%;
             transform: translateY(-50%);
             width: 100%;
-            display: none;
+            display: none; /* ADJUSTED: Hides the navigation arrows */
             justify-content: space-between;
             padding: 0 0.5rem;
         }
@@ -689,7 +545,7 @@
             font-weight: bold;
             line-height: 1;
             transition: background-color 0.3s ease;
-            user-select: none;
+            user-select: none; /* Prevent text selection */
         }
         
         .gallery-nav button:hover {
@@ -723,6 +579,7 @@
             border-color: #667eea;
             transform: scale(1.05);
         }
+        /* --- END: Gallery Styles --- */
 
         .contact {
             background: linear-gradient(145deg, #667eea 0%, #764ba2 100%);
@@ -747,18 +604,12 @@
             height: 200%;
             background: 
                 conic-gradient(from 0deg, transparent 0deg, rgba(255, 255, 255, 0.26) 90deg, transparent 180deg, rgba(255, 255, 255, 0.192) 270deg, transparent 360deg);
+            animation: rotate 20s linear infinite;
         }
 
-        /* Rotate animatie alleen op desktop */
-        @media (min-width: 769px) {
-            .contact::before {
-                animation: rotate 20s linear infinite;
-            }
-            
-            @keyframes rotate {
-                from { transform: rotate(0deg); }
-                to { transform: rotate(360deg); }
-            }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .contact .section-title {
@@ -787,18 +638,12 @@
             gap: 0.5rem;
             padding: 1rem 2rem;
             background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
             color: white;
             text-decoration: none;
             border-radius: 50px;
             border: 1px solid rgba(255,255,255,0.3);
             transition: all 0.3s ease;
-        }
-
-        /* Vervang backdrop-filter op mobiel */
-        @media (min-width: 769px) {
-            .contact-link {
-                backdrop-filter: blur(10px);
-            }
         }
 
         .contact-link:hover {
@@ -825,18 +670,12 @@
             height: 3px;
             background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #667eea);
             background-size: 300% 100%;
+            animation: gradientMove 3s ease-in-out infinite;
         }
 
-        /* Gradient animatie alleen op desktop */
-        @media (min-width: 769px) {
-            .footer::before {
-                animation: gradientMove 3s ease-in-out infinite;
-            }
-            
-            @keyframes gradientMove {
-                0%, 100% { background-position: 0% 50%; }
-                50% { background-position: 100% 50%; }
-            }
+        @keyframes gradientMove {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         /* Mobile Responsive */
@@ -873,11 +712,16 @@
             .profile-image {
                 width: 150px;
                 height: 150px;
-                margin-top: 6rem;
+                margin-top: 6rem; /* ADJUSTED: Increased top margin */
             }
 
             .section {
                 padding: 2rem 1rem;
+            }
+            
+            .modal-content {
+                padding: 1.5rem;
+                margin: 2rem auto;
             }
 
             .about, .projects, .contact {
@@ -896,66 +740,27 @@
             .project-grid {
                 grid-template-columns: 1fr;
             }
-            
-            /* Verwijder complexe hover effecten op mobiel */
-            .info-card:hover,
-            .project-card:hover {
-                transform: none;
-                box-shadow: inherit;
-            }
-            
-            .info-card::before,
-            .project-card::before {
-                display: none;
-            }
-            
-            /* Zorg dat project cards altijd content tonen op mobiel */
-            .project-card h3, 
-            .project-card p {
-                opacity: 1;
-                transform: translateY(0);
-                z-index: 3;
-                text-shadow: 0 2px 8px rgba(0,0,0,0.8);
-            }
-            
-            .project-card::after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(0,0,0,0.7);
-                z-index: 1;
-            }
         }
 
-        /* Smooth scrolling met debouncing voor betere prestaties */
+        /* Smooth scrolling */
         html {
             scroll-behavior: smooth;
         }
 
-        /* Optimalisatie: verminder repaints */
-        .section {
-            contain: layout style;
+        /* Add some animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* Verwijder fadeInUp animatie op mobiel voor betere prestaties */
-        @media (min-width: 769px) {
-            .section {
-                animation: fadeInUp 0.8s ease-out;
-            }
-            
-            @keyframes fadeInUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(30px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
+        .section {
+            animation: fadeInUp 0.8s ease-out;
         }
     </style>
 </head>
@@ -967,7 +772,7 @@
                 <li><a href="#home">CV</a></li>
                 <li><a href="#about">About me</a></li>
                 <li><a href="#stage">Internship</a></li>
-                <li><a href="#projects">projects</a></li>
+                <li><a href="#projects">Projects</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <div class="hamburger">
@@ -1022,9 +827,9 @@
         <div class="about">
             <h2 class="section-title">Internship</h2>
             <div style="text-align: left; max-width: 800px; margin: 0 auto; line-height: 1.8;">
-                <h3 style="color: #667eea; margin-bottom: 1rem;"><i class="fas fa-building"></i> Stage bij ????</h3>
+                <h3 style="color: #667eea; margin-bottom: 1rem;"><i class="fas fa-building"></i> Stage bij ???</h3>
                 <p style="margin-bottom: 1.5rem;">
-                    Tijdens mijn stage bij ??? in ??, een wereldleider in de ??, heb ik waardevolle praktijkervaring opgedaan binnen de afdeling <strong>IT Security & Cloud Computing</strong>. Deze ervaring was cruciaal voor het toepassen van mijn academische kennis in een complexe, real-world bedrijfsomgeving.
+                    Tijdens mijn stage bij ??? in ???, een wereldleider in de ???, heb ik waardevolle praktijkervaring opgedaan binnen de afdeling <strong>IT Security & Cloud Computing</strong>. Deze ervaring was cruciaal voor het toepassen van mijn academische kennis in een complexe, real-world bedrijfsomgeving.
                 </p>
                 
                 <h4 style="color: #333; margin-bottom: 1rem;"><i class="fas fa-tasks"></i> Belangrijkste Verantwoordelijkheden:</h4>
@@ -1058,29 +863,30 @@
                 </div>
                 <div class="project-card aws-tier3" onclick="openModal('aws-tier3-modal')">
                     <h3><i class="fas fa-cloud"></i> AWS Tier 3 Setup</h3>
-                    <p>Tier 3 AWS architectuur met hoge beschikbaarheid en schaalbaarheid.</p>
+                    <p>Enterprise-grade AWS architectuur met hoge beschikbaarheid en schaalbaarheid.</p>
                 </div>
                 <div class="project-card aws-iac" onclick="openModal('aws-iac-modal')">
                     <h3><i class="fas fa-code-branch"></i> AWS/GitLab/IaC Setup</h3>
                     <p>Infrastructure as Code implementatie met GitLab CI/CD en AWS services.</p>
                 </div>
                 <div class="project-card coming-soon" onclick="openModal('coming-soon-modal')">
-                    <h3><i class="fas fa-hourglass-half"></i> Security Audit</h3>
-                    <p>Soon....</p>
+                    <h3><i class="fas fa-hourglass-half"></i> Security audit bedrijf X</h3>
+                    <p>Soon.</p>
                 </div>
                 <div class="project-card coming-soon" onclick="openModal('coming-soon-modal2')">
                     <h3><i class="fas fa-hourglass-half"></i> Project voor bedrijf Y</h3>
-                    <p>Nieuw project in ontwikkeling.</p>
+                    <p>In ontwikkeling.</p>
                 </div>
             </div>
         </div>
     </section>
+   
 
     <section id="contact" class="section">
         <div class="contact">
             <h2 class="section-title">Contact</h2>
             <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-                Feel free to contact me for collaborations or questions!
+               Feel free to contact me for collaborations or any questions!
             </p>
             <div class="contact-links">
                 <a href="mailto:dieter.verbeek@hotmail.com?subject=Contact%20via%20Portfolio&body=Hallo%20Dieter,%0D%0A%0D%0AIk%20heb%20je%20portfolio%20bekeken%20en%20zou%20graag%20contact%20opnemen.%0D%0A%0D%0AMet%20vriendelijke%20groet" class="contact-link">
@@ -1093,12 +899,12 @@
                 </a>
             </div>
         </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
     </section>
+    <br>
+    <br>
+    <br>
+    <br>
+    
 
     <footer class="footer">
         <p>Copyright © 2025 Dieter Verbeek. All Rights Reserved.</p>
@@ -1106,7 +912,7 @@
 
     <div id="soc-modal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('soc-modal')">&times;</span>
+            <span class="close">&times;</span>
             <div class="modal-header">
                 <i class="fas fa-desktop"></i>
                 <h2>Security Operations Center (SOC)</h2>
@@ -1124,16 +930,18 @@
                     </div>
                     <div class="gallery-thumbnails">
                         <img src="media/wazuh.png" alt="Real-time Security Dashboard">
-                        <img src="media/soc-stack.png" alt="stack">
+                        <img src="media/soc-stack.png" alt="Stack">
+
+                        
                     </div>
                 </div>
                 
                 <h3>SOC Componenten:</h3>
                 <ul>
-                    <li><strong>SIEM Platform</strong> - WAZUH</li>
+                    <li><strong>SIEM Platform</strong> - Wazuh</li>
                     <li><strong>Threat Intelligence</strong> - Integratie van real-time threat feeds</li>
                     <li><strong>Incident Response</strong> - Geautomatiseerde response workflows</li>
-                    <li><strong>Dashboard & Reporting</strong> - Real-time security dashboards op Wazuh</li>
+                    <li><strong>Dashboard & Reporting</strong> - Real-time security dashboards</li>
                 </ul>
 
                 <h3>Belangrijkste Features:</h3>
@@ -1149,28 +957,28 @@
 
     <div id="retro-modal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('retro-modal')">&times;</span>
+            <span class="close">&times;</span>
             <div class="modal-header">
                 <i class="fas fa-globe"></i>
                 <h2>Retro Snacks Website</h2>
             </div>
             <div class="modal-body">
-                <p>Website gebouwd met Django framework en een PostgreSQL database. +Extra functies</p>
+                <p>Website gebouwd met Django framework en PostgreSQL database, +Functies</p>
                 
                 <div class="gallery-container">
                     <div class="gallery-main-image">
-                        <img src="media/retro.png" alt="Website Homepage">
+                        <img src="media/retro.PNG" alt="Website Homepage">
                     </div>
                     <div class="gallery-nav">
                         <button class="prev">&lt;</button>
                         <button class="next">&gt;</button>
                     </div>
                     <div class="gallery-thumbnails">
-                        <img src="media/retro.png" alt="Responsive Homepage Design">
-                        <img src="media/dashboard.png" alt="dashboard">
-                        <img src="media/offertes.png" alt="Overzicht offertes">
-                        <img src="media/klanten.png" alt="Klanten overzicht">
-                        <img src="media/snacks.png" alt="Snack allergie page">
+                        <img src="media/retro.PNG" alt="Responsive Homepage Design">
+                        <img src="media/snacks.png" alt="Snacks">
+                        <img src="media/dashboard.png" alt="Dashboard eigenaar">
+                        <img src="media/offertes.png" alt="Offertes overzicht">
+                        <img src="media/klanten.png" alt="Klanten">
                     </div>
                 </div>
                 
@@ -1183,18 +991,18 @@
                 </ul>
                 <h3>Functionaliteiten:</h3>
                 <ul>
-                    <li><strong>Automatische Offerte Berekening</strong> - Slimme pricing engine</li>
-                    <li><strong>Eigenaar Dashboard</strong> - Overzicht van alle offertes en bestellingen</li>
-                    <li><strong>Event Formulieren</strong> - Aangepaste formulieren voor verschillende events</li>
-                    <li><strong>Offerte Management</strong> - Overzicht alle offertes</li>
-                </ul> 
+                    <li><strong>Automatische Offerte Berekening</strong></li>
+                    <li><strong>Eigenaar Dashboard</strong> - Overzicht van alle offertes, klanten, aanbiedingen</li>
+                    <li><strong>Event Formulieren</strong> - Aangepaste formulieren voor verschillende formules</li>
+                    <li><strong>Offerte Management</strong> - Mailing, vastleggen event</li>
+                </ul>
             </div>
         </div>
     </div>
 
     <div id="aws-tier3-modal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('aws-tier3-modal')">&times;</span>
+            <span class="close">&times;</span>
             <div class="modal-header">
                 <i class="fas fa-cloud"></i>
                 <h2>AWS Tier 3 Setup</h2>
@@ -1235,7 +1043,7 @@
 
     <div id="aws-iac-modal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('aws-iac-modal')">&times;</span>
+            <span class="close">&times;</span>
             <div class="modal-header">
                 <i class="fas fa-code-branch"></i>
                 <h2>AWS/GitLab/IaC Setup</h2>
@@ -1252,24 +1060,22 @@
                         <button class="next">&gt;</button>
                     </div>
                     <div class="gallery-thumbnails">
-                        <img src="media/aws-iac.png" alt="CI/CD Pipeline Overview">
+                        <img src="media/aws-iac.png" alt="GitLab Pipeline">
                     </div>
                 </div>
                 
-                <h3>IaC Tools & Technologies:</h3>
+                <h3>IaC & Technologies:</h3>
                 <ul>
-                    <li><strong>Terraform</strong> - Infrastructure provisioning</li>
-                    <li><strong>Ansible</strong> - Configuration management</li>
+                    <li><strong>Opentofu</strong> - Infrastructure provisioning</li>
                     <li><strong>GitLab CI/CD</strong> - Automated deployment pipelines</li>
-                    <li><strong>AWS CloudFormation</strong> - Stack management</li>
+                    <li><strong>AWS</strong> - Cloud platform</li>
                 </ul>
 
                 <h3>Pipeline Features:</h3>
                 <ul>
                     <li>Automated testing en validation</li>
                     <li>Multi-environment deployments (dev/staging/prod)</li>
-                    <li>Rollback capabilities en blue-green deployments</li>
-                    <li>Security scanning en compliance checks</li>
+                    <li>Security scanning en compliance checks (Dast en Sast)</li>
                 </ul>
             </div>
         </div>
@@ -1277,13 +1083,13 @@
 
     <div id="coming-soon-modal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('coming-soon-modal')">&times;</span>
+            <span class="close">&times;</span>
             <div class="modal-header">
                 <i class="fas fa-hourglass-half"></i>
-                <h2>Security Audit</h2>
+                <h2>Security audit voor bedrijf X</h2>
             </div>
             <div class="modal-body">
-                <p>Security Audit bij bedrijf X</p>
+                <p>Security audit</p>
                 
                 <div class="gallery-container">
                     <div class="gallery-main-image">
@@ -1294,11 +1100,10 @@
                         <button class="next">&gt;</button>
                     </div>
                     <div class="gallery-thumbnails">
-                        <img src="https://via.placeholder.com/900x500/667eea/ffffff?text=AI+Security" alt="AI-Powered Security Tools">
                     </div>
                 </div>
                 
-                <h3>Technologie:</h3>
+                <h3>Tools:</h3>
                 <ul>
                     <li></li>
                     <li></li>
@@ -1311,13 +1116,13 @@
 
     <div id="coming-soon-modal2" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('coming-soon-modal2')">&times;</span>
+            <span class="close">&times;</span>
             <div class="modal-header">
                 <i class="fas fa-hourglass-half"></i>
-                <h2>Project bij bedrijf Y</h2>
+                <h2>Project voor bedrijf Y</h2>
             </div>
             <div class="modal-body">
-                <p>Meer innovatieve technologie projecten worden binnenkort onthuld. Focus ligt op cutting-edge cloud technologieën en security solutions.</p>
+                <p>Project</p>
                 
                 <div class="gallery-container">
                     <div class="gallery-main-image">
@@ -1328,7 +1133,7 @@
                         <button class="next">&gt;</button>
                     </div>
                     <div class="gallery-thumbnails">
-                        <img src="https://via.placeholder.com/900x500/667eea/ffffff?text=Kubernetes" alt="Container Orchestration">
+                        
                     </div>
                 </div>
                 
@@ -1344,48 +1149,10 @@
     </div>
 
     <script>
-        // Detecteer of het een mobiel apparaat is
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
-        
-        // Throttle functie voor betere scrolling prestaties
-        function throttle(func, limit) {
-            let inThrottle;
-            return function() {
-                const args = arguments;
-                const context = this;
-                if (!inThrottle) {
-                    func.apply(context, args);
-                    inThrottle = true;
-                    setTimeout(() => inThrottle = false, limit);
-                }
-            }
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
             initializeGalleries();
             setupEventListeners();
-            
-            // Optimaliseer voor mobiele apparaten
-            if (isMobile) {
-                optimizeForMobile();
-            }
         });
-
-        function optimizeForMobile() {
-            // Verminder scroll event frequentie op mobiel
-            const scrollHandler = throttle(handleScroll, 100);
-            window.removeEventListener('scroll', handleScroll);
-            window.addEventListener('scroll', scrollHandler, { passive: true });
-            
-            // Schakel parallax effecten uit op mobiel
-            const header = document.querySelector('.header');
-            if (header) {
-                header.style.backgroundAttachment = 'scroll';
-            }
-            
-            // Verminder complexe animaties
-            document.body.classList.add('mobile-optimized');
-        }
 
         function setupEventListeners() {
             // Mobile menu toggle
@@ -1409,7 +1176,7 @@
                 closeBtn.addEventListener('click', function() {
                     const modal = this.closest('.modal');
                     if (modal) {
-                        closeModal(modal.id);
+                       closeModal(modal.id);
                     }
                 });
             });
@@ -1432,32 +1199,22 @@
                 }
             });
 
-            // Smooth scrolling voor navigation links met optimalisatie
+            // Smooth scrolling for navigation links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
                     const target = document.querySelector(this.getAttribute('href'));
                     if (target) {
-                        // Gebruik native smooth scrolling indien beschikbaar, anders fallback
-                        if ('scrollBehavior' in document.documentElement.style) {
-                            target.scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'start'
-                            });
-                        } else {
-                            // Fallback voor oudere browsers
-                            const targetPosition = target.offsetTop - 75;
-                            window.scrollTo({
-                                top: targetPosition,
-                                behavior: 'smooth'
-                            });
-                        }
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
                     }
                 });
             });
 
-            // Add active class to navigation based on scroll position met throttling
-            const handleScroll = throttle(() => {
+            // Add active class to navigation based on scroll position
+            window.addEventListener('scroll', () => {
                 const sections = document.querySelectorAll('section[id]');
                 const navLinks = document.querySelectorAll('.nav-menu a');
                 
@@ -1475,13 +1232,7 @@
                         link.classList.add('active');
                     }
                 });
-            }, 50);
-
-            window.addEventListener('scroll', handleScroll, { passive: true });
-        }
-
-        function handleScroll() {
-            // Deze functie wordt overschreven door de throttled versie hierboven
+            });
         }
 
         function initializeGalleries() {
@@ -1549,9 +1300,6 @@
             if (firstThumbnail) {
                 firstThumbnail.dispatchEvent(new Event('click'));
             }
-            
-            // Scroll naar de top van de modal
-            modal.scrollTop = 0;
         }
 
         function closeModal(modalId) {
@@ -1566,44 +1314,64 @@
         function generateProfessionalCV() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            let yPos = 20;
-
-            // Header
+            
+            doc.setFont('helvetica');
+            
             doc.setFillColor(102, 126, 234);
             doc.rect(0, 0, 210, 40, 'F');
+            
             doc.setTextColor(255, 255, 255);
-            doc.setFont('helvetica', 'bold');
             doc.setFontSize(24);
-            doc.text('Dieter Verbeek', 20, yPos);
+            doc.setFont('helvetica', 'bold');
+            doc.text('DIETER VERBEEK', 20, 25);
+            
             doc.setFontSize(14);
             doc.setFont('helvetica', 'normal');
-            yPos += 10;
-            doc.text('Cloud & Cybersecurity Student', 20, yPos);
-
-            yPos += 30;
-            doc.setTextColor(51, 51, 51);
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(12);
-            doc.text('CONTACTINFORMATIE', 110, 60);
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
-            doc.text('Email: dieter.verbeek@hotmail.com', 110, 68);
-            doc.text('LinkedIn: linkedin.com/in/dieter-verbeek', 110, 76);
-            doc.text('Locatie: Kasterlee, België', 110, 84);
-
-            yPos = 60;
-            doc.setFontSize(12);
-            doc.setFont('helvetica', 'bold');
-            doc.text('PROFIEL', 20, yPos);
-            yPos += 8;
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
-            const profileText = 'Als gedreven IT-professional met een Bachelor in Cloud & Cybersecurity ben ik gepassioneerd door de nieuwste technologieën. Mijn expertise ligt vooral in cloud computing, security tools en automatisering. Ik ben altijd op zoek naar innovatieve oplossingen en hou me voortdurend bij met de laatste trends in de IT-wereld.';
-            const profileLines = doc.splitTextToSize(profileText, 80);
-            doc.text(profileLines, 20, yPos);
-            yPos += profileLines.length * 5 + 10;
+            doc.text('Cloud & Cybersecurity Specialist', 20, 33);
             
-            // Experience and Internship
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(10);
+            let yPos = 55;
+            
+            doc.setFont('helvetica', 'bold');
+            doc.text('CONTACTGEGEVENS', 20, yPos);
+            yPos += 8;
+            
+            doc.setFont('helvetica', 'normal');
+            doc.text('Email: dieter.verbeek@hotmail.com', 20, yPos);
+            yPos += 5;
+            doc.text('LinkedIn: linkedin.com/in/dieter-verbeek', 20, yPos);
+            yPos += 5;
+            doc.text('Locatie: Kasterlee, België', 20, yPos);
+            yPos += 5;
+            doc.text('Leeftijd: 34 jaar', 20, yPos);
+            yPos += 15;
+            
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(12);
+            doc.text('PROFESSIONELE SAMENVATTING', 20, yPos);
+            yPos += 8;
+            
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10);
+            const summary = 'Gedreven IT-professional met een Bachelor in Cloud & Cybersecurity, gepassioneerd door de nieuwste technologieën. Expertise in cloud computing, security tools en automatisering. Altijd op zoek naar innovatieve oplossingen en voortdurend bijblijven met de laatste trends in de IT-wereld.';
+            const summaryLines = doc.splitTextToSize(summary, 170);
+            doc.text(summaryLines, 20, yPos);
+            yPos += summaryLines.length * 5 + 10;
+            
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(12);
+            doc.text('OPLEIDING', 20, yPos);
+            yPos += 8;
+            
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(10);
+            doc.text('Bachelor Cloud & Cybersecurity', 20, yPos);
+            yPos += 5;
+            doc.setFont('helvetica', 'normal');
+            doc.text('Gespecialiseerd in cloud infrastructuur en security implementaties', 20, yPos);
+            yPos += 15;
+            
             doc.setFont('helvetica', 'bold');
             doc.setFontSize(12);
             doc.text('WERKERVARING & STAGE', 20, yPos);
@@ -1630,7 +1398,6 @@
             });
             yPos += 10;
             
-            // Skills
             doc.setFont('helvetica', 'bold');
             doc.setFontSize(12);
             doc.text('TECHNISCHE VAARDIGHEDEN', 20, yPos);
@@ -1680,12 +1447,6 @@
             
             yPos = Math.max(leftYPos, rightYPos) + 10;
             
-            if (yPos > 240) {
-                doc.addPage();
-                yPos = 20;
-            }
-
-            // Projects
             doc.setFont('helvetica', 'bold');
             doc.setFontSize(12);
             doc.text('BELANGRIJKSTE PROJECTEN', 20, yPos);
@@ -1755,7 +1516,14 @@
                 yPos += 5;
             });
             
-            doc.save('Dieter_Verbeek_CV_Professional.pdf');
+            doc.setFillColor(240, 240, 240);
+            doc.rect(0, 280, 210, 17, 'F');
+            doc.setTextColor(100, 100, 100);
+            doc.setFontSize(8);
+            doc.text('Gegenereerd op: ' + new Date().toLocaleDateString('nl-NL'), 20, 290);
+            doc.text('Dieter Verbeek - Cloud & Cybersecurity Specialist', 105, 290, { align: 'center' });
+            
+            doc.save('Dieter_Verbeek_CV.pdf');
         }
     </script>
 </body>
