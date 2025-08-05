@@ -80,7 +80,7 @@
             transition: 0.3s;
         }
 
-        /* Header Section */
+        /* Header Section - FIXED FOR MOBILE */
         .header {
             height: 100vh;
             display: flex;
@@ -95,7 +95,14 @@
                 url('media/main.jpg');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
+            /* REMOVED background-attachment: fixed for mobile performance */
+        }
+
+        /* Add media query to only use fixed attachment on desktop */
+        @media (min-width: 769px) {
+            .header {
+                background-attachment: fixed;
+            }
         }
 
         .header::before {
@@ -109,13 +116,26 @@
                 radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.2) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.2) 0%, transparent 50%),
                 radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            /* OPTIMIZED animation for better mobile performance */
             animation: backgroundShift 8s ease-in-out infinite;
+            /* Add will-change for better performance */
+            will-change: transform;
         }
 
+        /* OPTIMIZED animation for mobile */
         @keyframes backgroundShift {
-            0%, 100% { transform: translateX(0) translateY(0); }
-            33% { transform: translateX(-20px) translateY(-10px); }
-            66% { transform: translateX(20px) translateY(10px); }
+            0%, 100% { transform: translate3d(0, 0, 0); }
+            33% { transform: translate3d(-20px, -10px, 0); }
+            66% { transform: translate3d(20px, 10px, 0); }
+        }
+
+        /* Disable complex animations on mobile to improve performance */
+        @media (max-width: 768px) {
+            .header::before {
+                animation: none;
+                background: 
+                    radial-gradient(circle at 50% 50%, rgba(120, 119, 198, 0.15) 0%, transparent 50%);
+            }
         }
 
         .header-content {
@@ -133,11 +153,26 @@
             object-fit: cover;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             animation: float 3s ease-in-out infinite;
+            /* Add for better performance */
+            will-change: transform;
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+            0%, 100% { transform: translate3d(0, 0, 0); }
+            50% { transform: translate3d(0, -10px, 0); }
+        }
+
+        /* Simplify float animation on mobile */
+        @media (max-width: 768px) {
+            .profile-image {
+                animation: none;
+                /* Add subtle hover effect instead of constant animation */
+                transition: transform 0.3s ease;
+            }
+            
+            .profile-image:hover {
+                transform: scale(1.05);
+            }
         }
 
         .title {
@@ -149,6 +184,14 @@
         @keyframes glow {
             from { text-shadow: 0 0 20px rgba(255,255,255,0.5); }
             to { text-shadow: 0 0 30px rgba(255,255,255,0.8), 0 0 40px rgba(102,126,234,0.5); }
+        }
+
+        /* Reduce glow animation on mobile */
+        @media (max-width: 768px) {
+            .title {
+                animation: none;
+                text-shadow: 0 0 20px rgba(255,255,255,0.6);
+            }
         }
 
         .subtitle {
@@ -417,16 +460,16 @@
             height: 100%;
             background-color: rgba(0,0,0,0.8);
             backdrop-filter: blur(5px);
-            overflow-y: auto; /* Enable scrolling for the whole modal overlay */
+            overflow-y: auto;
         }
 
         .modal-content {
             background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
-            margin: 5% auto; /* Increased margin for better spacing */
+            margin: 5% auto;
             padding: 3rem;
             border-radius: 25px;
             width: 95%;
-            max-width: 900px; /* Wider modal for bigger images */
+            max-width: 900px;
             position: relative;
             box-shadow: 0 25px 50px rgba(0,0,0,0.3);
             animation: modalSlideIn 0.3s ease-out;
@@ -520,8 +563,8 @@
             height: auto;
             display: block;
             border-radius: 15px;
-            max-height: 60vh; /* Control max height */
-            object-fit: contain; /* Show the whole image */
+            max-height: 60vh;
+            object-fit: contain;
             transition: opacity 0.3s ease;
         }
         
@@ -530,7 +573,7 @@
             top: 50%;
             transform: translateY(-50%);
             width: 100%;
-            display: none; /* ADJUSTED: Hides the navigation arrows */
+            display: none;
             justify-content: space-between;
             padding: 0 0.5rem;
         }
@@ -546,7 +589,7 @@
             font-weight: bold;
             line-height: 1;
             transition: background-color 0.3s ease;
-            user-select: none; /* Prevent text selection */
+            user-select: none;
         }
         
         .gallery-nav button:hover {
@@ -611,6 +654,14 @@
         @keyframes rotate {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
+        }
+
+        /* Disable rotation animation on mobile for better performance */
+        @media (max-width: 768px) {
+            .contact::before {
+                animation: none;
+                background: rgba(255, 255, 255, 0.1);
+            }
         }
 
         .contact .section-title {
@@ -713,7 +764,7 @@
             .profile-image {
                 width: 150px;
                 height: 150px;
-                margin-top: 6rem; /* ADJUSTED: Increased top margin */
+                margin-top: 6rem;
             }
 
             .section {
@@ -741,6 +792,15 @@
             .project-grid {
                 grid-template-columns: 1fr;
             }
+
+            /* Mobile specific optimizations */
+            .header {
+                /* Use transform3d for hardware acceleration */
+                transform: translate3d(0, 0, 0);
+                -webkit-transform: translate3d(0, 0, 0);
+                /* Improve scrolling performance */
+                -webkit-overflow-scrolling: touch;
+            }
         }
 
         /* Smooth scrolling */
@@ -762,6 +822,32 @@
 
         .section {
             animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* ADDITIONAL MOBILE PERFORMANCE OPTIMIZATIONS */
+        @media (max-width: 768px) {
+            /* Reduce complex gradients on mobile */
+            .about::after,
+            .projects::before {
+                display: none;
+            }
+            
+            /* Simplify card hover effects on mobile */
+            .info-card::before {
+                display: none;
+            }
+            
+            /* Disable backdrop-filter on mobile for better performance */
+            .navbar,
+            .contact-link {
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+            }
+            
+            /* Use simpler backgrounds on mobile */
+            .modal-content {
+                background: #ffffff;
+            }
         }
     </style>
 </head>
@@ -894,7 +980,7 @@
                     <i class="fas fa-envelope"></i>
                     Email
                 </a>
-                <a href="https://linkedin.com/in/dieter-verbeek" target="_blank" class="contact-link">
+                <a href="www.linkedin.com/in/dieter-verbeek-057174283" target="_blank" class="contact-link">
                     <i class="fab fa-linkedin"></i>
                     LinkedIn
                 </a>
