@@ -1054,14 +1054,14 @@
                 
                 <div class="gallery-container">
                     <div class="gallery-main-image">
-                        <img src="media/retro.PNG" alt="Website Homepage">
+                        <img src="media/retro.png" alt="Website Homepage">
                     </div>
                     <div class="gallery-nav">
                         <button class="prev">&lt;</button>
                         <button class="next">&gt;</button>
                     </div>
                     <div class="gallery-thumbnails">
-                        <img src="media/retro.PNG" alt="Responsive Homepage Design">
+                        <img src="media/retro.png" alt="Responsive Homepage Design">
                         <img src="media/snacks.png" alt="Snacks">
                         <img src="media/dashboard.png" alt="Dashboard eigenaar">
                         <img src="media/offertes.png" alt="Offertes overzicht">
@@ -1397,221 +1397,280 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Professional PDF CV Generation
-        function generateProfessionalCV() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
-            doc.setFont('helvetica');
-            
-            doc.setFillColor(102, 126, 234);
-            doc.rect(0, 0, 210, 40, 'F');
-            
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(24);
-            doc.setFont('helvetica', 'bold');
-            doc.text('DIETER VERBEEK', 20, 25);
-            
-            doc.setFontSize(14);
-            doc.setFont('helvetica', 'normal');
-            doc.text('Cloud & Cybersecurity Specialist', 20, 33);
-            
-            doc.setTextColor(0, 0, 0);
-            doc.setFontSize(10);
-            let yPos = 55;
-            
-            doc.setFont('helvetica', 'bold');
-            doc.text('CONTACTGEGEVENS', 20, yPos);
-            yPos += 8;
-            
-            doc.setFont('helvetica', 'normal');
-            doc.text('Email: dieter.verbeek@hotmail.com', 20, yPos);
-            yPos += 5;
-            doc.text('LinkedIn: linkedin.com/in/dieter-verbeek', 20, yPos);
-            yPos += 5;
-            doc.text('Locatie: Kasterlee, België', 20, yPos);
-            yPos += 5;
-            doc.text('Leeftijd: 34 jaar', 20, yPos);
-            yPos += 15;
-            
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(12);
-            doc.text('PROFESSIONELE SAMENVATTING', 20, yPos);
-            yPos += 8;
-            
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
-            const summary = 'Gedreven IT-professional met een Bachelor in Cloud & Cybersecurity, gepassioneerd door de nieuwste technologieën. Expertise in cloud computing, security tools en automatisering. Altijd op zoek naar innovatieve oplossingen en voortdurend bijblijven met de laatste trends in de IT-wereld.';
-            const summaryLines = doc.splitTextToSize(summary, 170);
-            doc.text(summaryLines, 20, yPos);
-            yPos += summaryLines.length * 5 + 10;
-            
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(12);
-            doc.text('OPLEIDING', 20, yPos);
-            yPos += 8;
-            
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(10);
-            doc.text('Bachelor Cloud & Cybersecurity', 20, yPos);
-            yPos += 5;
-            doc.setFont('helvetica', 'normal');
-            doc.text('Gespecialiseerd in cloud infrastructuur en security implementaties', 20, yPos);
-            yPos += 15;
-            
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(12);
-            doc.text('WERKERVARING & STAGE', 20, yPos);
-            yPos += 8;
-            
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(10);
-            doc.text('Stage IT Security & Cloud Computing - Aurubis, Olen', 20, yPos);
-            yPos += 5;
-            
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(9);
-            const stageResponsibilities = [
-                '• Monitoring en analyse van security events in SIEM-platform',
-                '• Implementatie en beheer van cloud-infrastructuur op AWS',
-                '• Ontwikkeling van scripts voor automatisering van security taken',
-                '• Uitvoering van kwetsbaarheidsanalyses op interne systemen',
-                '• Documentatie van nieuwe cloud- en securityprocedures'
-            ];
-            
-            stageResponsibilities.forEach(responsibility => {
-                doc.text(responsibility, 20, yPos);
-                yPos += 4;
-            });
-            yPos += 10;
-            
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(12);
-            doc.text('TECHNISCHE VAARDIGHEDEN', 20, yPos);
-            yPos += 8;
-            
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
-            
-            const skillsLeft = [
-                'Cloud Platforms:',
-                '• AWS (EC2, S3, RDS, VPC)',
-                '• Azure Cloud Services',
-                '• Google Cloud Platform',
-                '',
-                'Security Tools:',
-                '• SIEM Platforms (Splunk)',
-                '• Vulnerability Assessment',
-                '• Incident Response',
-                '• Threat Intelligence'
-            ];
-            
-            const skillsRight = [
-                'Development & Automation:',
-                '• Python Scripting',
-                '• Infrastructure as Code',
-                '• GitLab CI/CD',
-                '• Docker & Containers',
-                '',
-                'Databases & Web:',
-                '• PostgreSQL, MySQL',
-                '• Django Framework',
-                '• HTML5, CSS3, JavaScript',
-                '• RESTful APIs'
-            ];
-            
-            let leftYPos = yPos;
-            skillsLeft.forEach(skill => {
-                doc.text(skill, 20, leftYPos);
-                leftYPos += 4;
-            });
-            
-            let rightYPos = yPos;
-            skillsRight.forEach(skill => {
-                doc.text(skill, 110, rightYPos);
-                rightYPos += 4;
-            });
-            
-            yPos = Math.max(leftYPos, rightYPos) + 10;
-            
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(12);
-            doc.text('BELANGRIJKSTE PROJECTEN', 20, yPos);
-            yPos += 8;
-            
-            const projects = [
-                {
-                    title: 'Security Operations Center (SOC)',
-                    description: 'Implementatie van 24/7 monitoring platform met Splunk Enterprise voor real-time threat detection en incident response. Resultaat: 90% snellere incident detection.'
-                },
-                {
-                    title: 'AWS Tier 3 Enterprise Setup',
-                    description: 'Enterprise-grade AWS architectuur met Multi-AZ deployment, auto-scaling en 99.99% uptime garantie. Inclusief complete security compliance.'
-                },
-                {
-                    title: 'Django E-commerce Platform',
-                    description: 'Volledig geautomatiseerd bestelsysteem met PostgreSQL database, automatische offerte berekening en eigenaar dashboard. 80% reductie in handmatige verwerking.'
-                },
-                {
-                    title: 'Infrastructure as Code (IaC)',
-                    description: 'Complete GitLab CI/CD pipeline setup met Terraform en Ansible voor geautomatiseerde AWS deployments. 75% snellere deployments met zero-downtime updates.'
-                }
-            ];
-            
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(9);
-            
-            projects.forEach(project => {
-                if (yPos > 250) {
-                    doc.addPage();
-                    yPos = 20;
-                }
-                
-                doc.setFont('helvetica', 'bold');
-                doc.text(project.title, 20, yPos);
-                yPos += 4;
-                
-                doc.setFont('helvetica', 'normal');
-                const projectLines = doc.splitTextToSize(project.description, 170);
-                doc.text(projectLines, 20, yPos);
-                yPos += projectLines.length * 4 + 6;
-            });
-            
-            if (yPos > 240) {
-                doc.addPage();
-                yPos = 20;
-            }
-            
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(12);
-            doc.text('KERNCOMPETENTIES', 20, yPos);
-            yPos += 8;
-            
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
-            const competencies = [
-                '✓ Proactieve security-aanpak en risk assessment',
-                '✓ Cloud architectuur design en implementatie',
-                '✓ Automatisering van IT-processen en workflows',
-                '✓ Incident response en forensische analyse',
-                '✓ Team collaboration en knowledge sharing',
-                '✓ Continuous learning en technologie adoptie'
-            ];
-            
-            competencies.forEach(comp => {
-                doc.text(comp, 20, yPos);
-                yPos += 5;
-            });
-            
-            doc.setFillColor(240, 240, 240);
-            doc.rect(0, 280, 210, 17, 'F');
-            doc.setTextColor(100, 100, 100);
-            doc.setFontSize(8);
-            doc.text('Gegenereerd op: ' + new Date().toLocaleDateString('nl-NL'), 20, 290);
-            doc.text('Dieter Verbeek - Cloud & Cybersecurity Specialist', 105, 290, { align: 'center' });
-            
-            doc.save('Dieter_Verbeek_CV.pdf');
+        // Professional PDF CV Generation - Dieter Verbeek
+function generateProfessionalCV() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    doc.setFont('helvetica');
+    
+    // Header met blauwe achtergrond
+    doc.setFillColor(102, 126, 234);
+    doc.rect(0, 0, 210, 40, 'F');
+    
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(24);
+    doc.setFont('helvetica', 'bold');
+    doc.text('DIETER VERBEEK', 20, 25);
+    
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Cloud & Cybersecurity Student', 20, 33);
+    
+    // Contactgegevens
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(10);
+    let yPos = 55;
+    
+    doc.setFont('helvetica', 'bold');
+    doc.text('CONTACTGEGEVENS', 20, yPos);
+    yPos += 8;
+    
+    doc.setFont('helvetica', 'normal');
+    doc.text('Email: dieter.verbeek@hotmail.com', 20, yPos);
+    yPos += 5;
+    doc.text('Telefoon: 0493 44 85 98', 20, yPos);
+    yPos += 5;
+    doc.text('LinkedIn: linkedin.com/in/dieter-verbeek-057174283', 20, yPos);
+    yPos += 5;
+    doc.text('Adres: Retiesebaan 182, 2460 Kasterlee', 20, yPos);
+    yPos += 5;
+    doc.text('Geboortedatum: 12/08/1991', 20, yPos);
+    yPos += 5;
+    doc.text('Rijbewijs: B (eigen wagen)', 20, yPos);
+    yPos += 15;
+    
+    // Professionele samenvatting
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(12);
+    doc.text('', 20, yPos);
+    yPos += 8;
+    
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    const summary = 'Gedreven IT-student in het 4de jaar Cloud & Cybersecurity met praktijkervaring in AWS cloud architecturen, security monitoring en automatisering. Combineert 15+ jaar werkervaring als kok met nieuwe passie voor cloud technologieën. Expertise in Terraform, Django, en beveiligingstools zoals Wazuh. Altijd leergierig en gefocust op innovatieve IT-oplossingen.';
+    const summaryLines = doc.splitTextToSize(summary, 170);
+    doc.text(summaryLines, 20, yPos);
+    yPos += summaryLines.length * 5 + 10;
+    
+    // Opleiding
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(12);
+    doc.text('OPLEIDING', 20, yPos);
+    yPos += 8;
+    
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10);
+    doc.text('Bachelor Elektronica-ICT "Cloud & Cyber Security" (Werktraject)', 20, yPos);
+    yPos += 5;
+    doc.setFont('helvetica', 'normal');
+    doc.text('09/2022 - heden (4de jaar lopend)', 20, yPos);
+    yPos += 4;
+    doc.text('• 1 vaste lesdag per week (vrijdag), totaal 4 jaar programma', 20, yPos);
+    yPos += 4;
+    doc.text('• Specialisatie in cloud infrastructuur en cybersecurity', 20, yPos);
+    yPos += 10;
+    
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10);
+    doc.text('Hotel & Toerisme School Spermalie, Brugge', 20, yPos);
+    yPos += 5;
+    doc.setFont('helvetica', 'normal');
+    doc.text('Afgestudeerd in 2009', 20, yPos);
+    yPos += 15;
+    
+    // Werkervaring
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(12);
+    doc.text('WERKERVARING', 20, yPos);
+    yPos += 8;
+    
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10);
+    doc.text('Kok - OPZ (Openbaar Psychiatrisch Zorgcentrum)', 20, yPos);
+    yPos += 5;
+    doc.setFont('helvetica', 'normal');
+    doc.text('2009 - heden', 20, yPos);
+    yPos += 5;
+    
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    const werkResponsibilities = [
+        '• Dagelijkse voedselproductie en kwaliteitscontrole',
+        '• Multitasking in een zorgomgeving onder tijdsdruk',
+        '• Teamleiderschap en samenwerking met multidisciplinair team',
+        '• Ontwikkeling van stressbestendigheid en nauwkeurigheid'
+    ];
+    
+    werkResponsibilities.forEach(responsibility => {
+        doc.text(responsibility, 20, yPos);
+        yPos += 4;
+    });
+    yPos += 10;
+    
+    // Technische vaardigheden
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(12);
+    doc.text('TECHNISCHE VAARDIGHEDEN', 20, yPos);
+    yPos += 8;
+    
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    
+    const skillsLeft = [
+        'Cloud Platforms:',
+        '• AWS (EC2, S3, RDS, VPC)',
+        '• Terraform/OpenTofu (IaC)',
+        '• Tier 3 Architectuur',
+        '',
+        'Security & Monitoring:',
+        '• Wazuh Security Platform',
+        '• DAST Security Scanning',
+        '• Checkov (IaC Security)',
+        '• Security Monitoring'
+    ];
+    
+    const skillsRight = [
+        'Development & Automation:',
+        '• Django Framework',
+        '• Python (matig)',
+        '• GitLab CI/CD Pipelines',
+        '• Infrastructure as Code',
+        '',
+        'Web Technologies:',
+        '• HTML5, CSS3, JavaScript',
+        '• Database Management',
+        '• RESTful API Development',
+        '• Version Control (Git)'
+    ];
+    
+    let leftYPos = yPos;
+    skillsLeft.forEach(skill => {
+        doc.text(skill, 20, leftYPos);
+        leftYPos += 4;
+    });
+    
+    let rightYPos = yPos;
+    skillsRight.forEach(skill => {
+        doc.text(skill, 110, rightYPos);
+        rightYPos += 4;
+    });
+    
+    yPos = Math.max(leftYPos, rightYPos) + 10;
+    
+    // Schoolprojecten
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(12);
+    doc.text('BELANGRIJKSTE SCHOOLPROJECTEN', 20, yPos);
+    yPos += 8;
+    
+    const projects = [
+        {
+            title: 'AWS Cloud Webapplicatie - Tier 3 Architectuur',
+            description: 'Volledige webapplicatie gedeployeerd in AWS cloud met Terraform (OpenTofu). Implementatie van Tier 3 architectuur met geautomatiseerde CI/CD pipeline in GitLab. Proces omvat: Validate, FMT, Checkov security scanning, build en DAST runtime beveiligingsscans.'
+        },
+        {
+            title: 'Wazuh Security Monitoring Implementatie',
+            description: 'Implementatie van Wazuh-architectuur voor beveiligingsmonitoring en incident response in groepswerk webhosting omgeving. Real-time monitoring en automatische threat detection voor multi-tenant hosting platform.'
+        },
+        {
+            title: 'Django Web Development',
+            description: 'Ontwikkeling van webapplicaties met Django framework, inclusief database integratie, user authentication, en RESTful API development. Focus op security best practices en responsive design.'
+        },
+        {
+            title: 'Infrastructure as Code (IaC) Pipeline',
+            description: 'Complete GitLab CI/CD pipeline setup met Terraform voor geautomatiseerde AWS deployments. Geïntegreerde security scanning met Checkov en runtime testing met DAST tools voor veilige deployments.'
         }
+    ];
+    
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    
+    projects.forEach(project => {
+        if (yPos > 250) {
+            doc.addPage();
+            yPos = 20;
+        }
+        
+        doc.setFont('helvetica', 'bold');
+        doc.text(project.title, 20, yPos);
+        yPos += 4;
+        
+        doc.setFont('helvetica', 'normal');
+        const projectLines = doc.splitTextToSize(project.description, 170);
+        doc.text(projectLines, 20, yPos);
+        yPos += projectLines.length * 4 + 6;
+    });
+    
+    // Nieuwe pagina als nodig
+    if (yPos > 240) {
+        doc.addPage();
+        yPos = 20;
+    }
+    
+    // Eigenschappen en vaardigheden
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(12);
+    doc.text('PERSOONLIJKE EIGENSCHAPPEN', 20, yPos);
+    yPos += 8;
+    
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    const eigenschappen = [
+        '✓ Leergierig en altijd op zoek naar nieuwe technologieën',
+        '✓ Teamspeler met sterke communicatieve vaardigheden',
+        '✓ Nauwkeurig en detail-georiënteerd',
+        '✓ Doorzetter met sterke focus op resultaten',
+        '✓ Stressbestendig door jarenlange keukenervaring',
+        '✓ Kritisch denkvermogen en probleemoplossend',
+        '✓ Multitasking en prioriteiten stellen onder druk'
+    ];
+    
+    eigenschappen.forEach(eigenschap => {
+        doc.text(eigenschap, 20, yPos);
+        yPos += 5;
+    });
+    yPos += 10;
+    
+    // Talen
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(12);
+    doc.text('TAALVAARDIGHEDEN', 20, yPos);
+    yPos += 8;
+    
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.text('• Nederlands: Moedertaal (spreken en lezen)', 20, yPos);
+    yPos += 5;
+    doc.text('• Engels: Goed tot vloeiend (spreken en lezen)', 20, yPos);
+    yPos += 5;
+    doc.text('• Frans: Matig niveau (spreken en lezen)', 20, yPos);
+    yPos += 15;
+    
+    // Interesses
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(12);
+    doc.text('INTERESSES', 20, yPos);
+    yPos += 8;
+    
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.text('• Padellen - actieve sport en ontspanning', 20, yPos);
+    yPos += 5;
+    doc.text('• Gezin - quality time met familie', 20, yPos);
+    yPos += 5;
+    doc.text('• IT & Technology - bijblijven met laatste trends en ontwikkelingen', 20, yPos);
+    
+    // Footer
+    doc.setFillColor(240, 240, 240);
+    doc.rect(0, 280, 210, 17, 'F');
+    doc.setTextColor(100, 100, 100);
+    doc.setFontSize(8);
+    doc.text('Gegenereerd op: ' + new Date().toLocaleDateString('nl-NL'), 20, 290);
+    doc.text('Dieter Verbeek - Cloud & Cybersecurity Student', 105, 290, { align: 'center' });
+    
+    doc.save('Dieter_Verbeek_CV_Actueel.pdf');
+}
     </script>
 </body>
 </html>
