@@ -1048,7 +1048,7 @@
                 <h2>Security Operations Center (SOC)</h2>
             </div>
             <div class="modal-body">
-                <p>Implementatie van een volledig functioneel Security Operations Center voor 24/7 monitoring en incident response capabilities.</p>
+                <p>Implementatie van een Security Operations Center architectuur met aanvalssimulatie, monitoring en geautomatiseerde incident response capabilities.</p>
                 
                 <div class="gallery-container">
                     <div class="gallery-main-image">
@@ -1059,32 +1059,31 @@
                         <button class="next">&gt;</button>
                     </div>
                     <div class="gallery-thumbnails">
+                        <img src="media/soc2.PNG" alt="Stack">
                         <img src="media/wazuh.png" alt="Real-time Security Dashboard">
-                        <img src="media/soc-stack.png" alt="Stack">
-
-                        
                     </div>
                 </div>
                 
-                <h3>SOC Componenten:</h3>
+                <h3>SOC Componenten & Architectuur:</h3>
                 <ul>
-                    <li><strong>SIEM Platform</strong> - Wazuh</li>
-                    <li><strong>Threat Intelligence</strong> - Integratie van real-time threat feeds</li>
-                    <li><strong>Incident Response</strong> - Geautomatiseerde response workflows</li>
-                    <li><strong>Dashboard & Reporting</strong> - Real-time security dashboards</li>
+                    <li><strong>Aanvalssimulatie:</strong> Infection Monkey draaiend via een Kali Linux Attack VM (192.168.56.103)</li>
+                    <li><strong>Endpoint & IDS:</strong> Ubuntu Endpoint (192.168.56.101) uitgerust met Wazuh Agent en Suricata</li>
+                    <li><strong>SIEM & Dashboarding:</strong> Wazuh (Manager) met bijbehorend Wazuh Dashboard</li>
+                    <li><strong>Automatisering (SOAR):</strong> n8n voor het koppelen van systemen en automatiseren van workflows</li>
+                    <li><strong>Externe Integraties:</strong> VirusTotal (Threat Intelligence), Jira (Ticketing), Gmail & Slack (Notificaties) en Google Sheets (Logging)</li>
                 </ul>
 
                 <h3>Belangrijkste Features:</h3>
                 <ul>
-                    <li>24/7 monitoring van netwerk en systemen</li>
-                    <li>Automatische threat detection en alerting</li>
-                    <li>Incident tracking en response procedures</li>
-                    <li>Compliance reporting en forensische analyse</li>
+                    <li>Simulatie van realistische netwerkaanvallen om de verdediging te testen.</li>
+                    <li>Detectie van dreigingen op het endpoint via gecombineerde inzet van de Wazuh Agent en Suricata.</li>
+                    <li>Centrale verzameling en analyse van security events in het Wazuh platform.</li>
+                    <li>Geautomatiseerde afhandeling van alerts via n8n (bijv. automatische file-scans in VirusTotal).</li>
+                    <li>Directe alarmering en incident tracking via integraties met Slack, Gmail en Jira.</li>
                 </ul>
             </div>
         </div>
     </div>
-
     <div id="retro-modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
