@@ -893,9 +893,9 @@
             <div class="nav-brand">Dieter Verbeek</div>
             <ul class="nav-menu">
                 <li><a href="#home">CV</a></li>
-                <li><a href="#about">About me</a></li>
-                <li><a href="#stage">Internship</a></li>
-                <li><a href="#projects">Projects</a></li>
+                <li><a href="#about">Wie ben ik?</a></li>
+                <li><a href="#stage">Stage</a></li>
+                <li><a href="#projects">Projecten</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <div class="hamburger">
@@ -919,9 +919,9 @@
 
     <section id="about" class="section">
         <div class="about">
-            <h2 class="section-title">About me</h2>
+            <h2 class="section-title">Wie ben ik?</h2>
             <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem; line-height: 1.8;">
-                Als gedreven IT-professional met een Bachelor in Cloud & Cybersecurity ben ik gepassioneerd door de nieuwste technologieën. 
+                Een gedreven IT-professional met een Bachelor in Cloud & Cybersecurity ben ik gepassioneerd door de nieuwste technologieën. 
                 Mijn expertise ligt vooral in cloud computing, security tools en automatisering. Ik ben altijd op zoek naar innovatieve 
                 oplossingen en hou me voortdurend bij met de laatste trends in de IT-wereld.
             </p>
@@ -929,17 +929,17 @@
             <div class="info-grid">
                 <div class="info-card">
                     <i class="fas fa-user"></i>
-                    <h3>Name</h3>
+                    <h3>Naam</h3>
                     <p>Dieter Verbeek</p>
                 </div>
                 <div class="info-card">
                     <i class="fas fa-birthday-cake"></i>
-                    <h3>Age</h3>
+                    <h3>Leeftijd</h3>
                     <p>34 jaar</p>
                 </div>
                 <div class="info-card">
                     <i class="fas fa-map-marker-alt"></i>
-                    <h3>Location</h3>
+                    <h3>Locatie</h3>
                     <p>Kasterlee, België</p>
                 </div>
             </div>
@@ -948,7 +948,7 @@
 
     <section id="stage" class="section">
         <div class="about">
-            <h2 class="section-title">Internship</h2>
+            <h2 class="section-title">Stage</h2>
             <div style="text-align: left; max-width: 800px; margin: 0 auto; line-height: 1.8;">
                 <h3 style="color: #667eea; margin-bottom: 1rem;"><i class="fas fa-landmark"></i> Stage bij Gemeentebestuur Dessel (Lopend)</h3>
                 <p style="margin-bottom: 1.5rem;">
@@ -984,7 +984,7 @@
 
     <section id="projects" class="section">
         <div class="projects">
-            <h2 class="section-title">Projects</h2>
+            <h2 class="section-title">Projecten</h2>
             <div class="project-grid">
                 <div class="project-card soc" onclick="openModal('soc-modal')">
                     <h3><i class="fas fa-desktop"></i> SOC</h3>
@@ -1016,7 +1016,7 @@
         <div class="contact">
             <h2 class="section-title">Contact</h2>
             <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-               Feel free to contact me for collaborations or any questions!
+               Vragen of samenwerking? Stuur een bericht.
             </p>
             <div class="contact-links">
                 <a href="mailto:dieter.verbeek@hotmail.com?subject=Contact%20via%20Portfolio&body=Hallo%20Dieter,%0D%0A%0D%0AIk%20heb%20je%20portfolio%20bekeken%20en%20zou%20graag%20contact%20opnemen.%0D%0A%0D%0AMet%20vriendelijke%20groet" class="contact-link">
@@ -1463,7 +1463,7 @@ function generateProfessionalCV() {
     
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(10);
-    const summary = 'Gedreven IT-student in het 4de jaar Cloud & Cybersecurity met praktijkervaring in AWS cloud architecturen, security monitoring en automatisering. Combineert 15+ jaar werkervaring als kok met nieuwe passie voor cloud technologieën. Expertise in Terraform, Django, en beveiligingstools zoals Wazuh. Altijd leergierig en gefocust op innovatieve IT-oplossingen.';
+    const summary = 'Ik ben een gedreven IT-professional met een Bachelor in Cloud & Cybersecurity ben ik gepassioneerd door de nieuwste technologieën. Mijn expertise ligt vooral in cloud computing, security tools en automatisering. Ik ben altijd op zoek naar innovatieve oplossingen en hou me voortdurend bij met de laatste trends in de IT-wereld.';
     const summaryLines = doc.splitTextToSize(summary, 170);
     doc.text(summaryLines, 20, yPos);
     yPos += summaryLines.length * 5 + 10;
@@ -1573,10 +1573,18 @@ function generateProfessionalCV() {
     
     yPos = Math.max(leftYPos, rightYPos) + 10;
     
+    // Controleer of er nog ruimte is voor de sectie Schoolprojecten
+    if (yPos > 220) {
+        doc.addPage();
+        yPos = 20;
+    } else {
+        yPos += 10; // Laat de titel wat extra zakken als hij nog op pagina 1 past
+    }
+    
     // Schoolprojecten
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(12);
-    doc.text('BELANGRIJKSTE SCHOOLPROJECTEN', 20, yPos);
+    doc.text('PROJECTEN', 20, yPos);
     yPos += 8;
     
     const projects = [
@@ -1626,19 +1634,19 @@ function generateProfessionalCV() {
     // Eigenschappen en vaardigheden
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(12);
-    doc.text('PERSOONLIJKE EIGENSCHAPPEN', 20, yPos);
+    doc.text('EIGENSCHAPPEN', 20, yPos);
     yPos += 8;
     
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(10);
     const eigenschappen = [
-        '✓ Leergierig en altijd op zoek naar nieuwe technologieën',
-        '✓ Teamspeler met sterke communicatieve vaardigheden',
-        '✓ Nauwkeurig en detail-georiënteerd',
-        '✓ Doorzetter met sterke focus op resultaten',
-        '✓ Stressbestendig door jarenlange keukenervaring',
-        '✓ Kritisch denkvermogen en probleemoplossend',
-        '✓ Multitasking en prioriteiten stellen onder druk'
+        '• leergierig en altijd op zoek naar nieuwe technologieën',
+        '• teamspeler met sterke communicatieve vaardigheden',
+        '• nauwkeurig en detail-georiënteerd',
+        '• doorzetter met sterke focus op resultaten',
+        '• stressbestendig door jarenlange keukenervaring',
+        '• kritisch denkvermogen en probleemoplossend',
+        '• multitasking en prioriteiten stellen onder druk'
     ];
     
     eigenschappen.forEach(eigenschap => {
