@@ -1690,7 +1690,9 @@ function generateProfessionalCV() {
     doc.text('Gegenereerd op: ' + new Date().toLocaleDateString('nl-NL'), 20, 290);
     doc.text('Dieter Verbeek - Cloud & Cybersecurity Student', 105, 290, { align: 'center' });
     
-    doc.save('Dieter_Verbeek_CV_Actueel.pdf');
+    const pdfBlob = doc.output('blob');
+    const blobUrl = URL.createObjectURL(pdfBlob);
+    window.open(blobUrl, '_blank');
 }
     </script>
     <script>
